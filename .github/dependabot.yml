@@ -11,6 +11,9 @@ updates:
       # Remove this once @astrojs/check supports TypeScript 7.
       - dependency-name: typescript
         versions: [">=7.0.0"]
+      # Node type definitions must match the Node major in .nvmrc (22).
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
