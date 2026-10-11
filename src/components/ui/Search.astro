@@ -1,0 +1,206 @@
+---
+// Site search (tech spec §8): a button (or "/") opens a dialog; Pagefind loads only on first open.
+---
+
+<button type="button" class="open" aria-label="Search" aria-keyshortcuts="/" data-search-open>
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="7"></circle>
+    <path d="m20 20-3.5-3.5"></path>
+  </svg>
+</button>
+
+<dialog class="dialog" aria-labelledby="search-title" data-search-dialog>
+  <form method="dialog" class="form" role="search" onsubmit="return false">
+    <div class="bar">
+      <h2 id="search-title" class="eyebrow">Search</h2>
+      <button type="button" class="close" data-search-close>Close <kbd>Esc</kbd></button>
+    </div>
+    <label class="label" for="search-input">Search projects, writing and pages</label>
+    <input id="search-input" class="input" type="search" autocomplete="off" spellcheck="false" placeholder="Try “honeypot”" data-search-input />
+  </form>
+  <p class="status" role="status" aria-live="polite" data-search-status></p>
+  <ol class="results" data-search-results></ol>
+</dialog>
+
+<style>
+  .open {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-left: 8px;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-control);
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .open:hover {
+    color: var(--text);
+    border-color: var(--line-strong);
+  }
+  .dialog {
+    width: min(640px, calc(100vw - 32px));
+    max-height: min(640px, calc(100vh - 64px));
+    margin: 64px auto auto;
+    padding: 20px;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-card);
+  }
+  .dialog::backdrop {
+    background: rgb(0 0 0 / 0.45);
+  }
+  .bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .close {
+    min-height: 44px;
+    padding: 0 10px;
+    background: transparent;
+    border: 0;
+    color: var(--text-muted);
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  kbd {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 1px 5px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-control);
+  }
+  .label {
+    display: block;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .input {
+    width: 100%;
+    min-height: 44px;
+    padding: 0 12px;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-control);
+    font: inherit;
+  }
+  .status {
+    margin: 12px 0 4px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .results {
+    list-style: none;
+    padding: 0;
+  }
+  .results :global(li) {
+    border-top: 1px solid var(--line);
+  }
+  .results :global(a) {
+    display: block;
+    padding: 12px 4px;
+  }
+  .results :global(a:hover) {
+    text-decoration: none;
+    background: var(--surface-sunken);
+  }
+  .results :global(.r-title) {
+    display: block;
+    font-weight: 600;
+  }
+  .results :global(.r-excerpt) {
+    display: block;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .results :global(mark) {
+    background: var(--tag-active-bg);
+    color: var(--tag-active-fg);
+  }
+</style>
+
+<script>
+  type PagefindResult = { data: () => Promise<{ url: string; excerpt: string; meta: { title?: string } }> };
+  type Pagefind = { search: (q: string) => Promise<{ results: PagefindResult[] }> };
+
+  const dialog = document.querySelector<HTMLDialogElement>("[data-search-dialog]");
+  const input = document.querySelector<HTMLInputElement>("[data-search-input]");
+  const status = document.querySelector<HTMLElement>("[data-search-status]");
+  const list = document.querySelector<HTMLOListElement>("[data-search-results]");
+  let pagefind: Pagefind | null = null;
+  let timer: number | undefined;
+
+  async function load(): Promise<Pagefind | null> {
+    if (pagefind) return pagefind;
+    try {
+      // Built by scripts/postbuild.mjs; not a module Vite or TypeScript can see at build time.
+      const indexUrl = "/pagefind/pagefind.js";
+      pagefind = (await import(/* @vite-ignore */ indexUrl)) as Pagefind;
+    } catch {
+      if (status) status.textContent = "Search isn't available here (the index is built with the site).";
+    }
+    return pagefind;
+  }
+
+  function open() {
+    if (!dialog || dialog.open) return;
+    dialog.showModal();
+    input?.focus();
+    void load();
+  }
+
+  async function run(query: string) {
+    if (!list || !status) return;
+    list.replaceChildren();
+    if (!query.trim()) {
+      status.textContent = "";
+      return;
+    }
+    const pf = await load();
+    if (!pf) return;
+    const { results } = await pf.search(query);
+    const top = await Promise.all(results.slice(0, 8).map((r) => r.data()));
+    status.textContent = top.length ? `${results.length} result${results.length === 1 ? "" : "s"}` : "No results";
+    for (const r of top) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = r.url;
+      const title = document.createElement("span");
+      title.className = "r-title";
+      title.textContent = r.meta.title ?? r.url;
+      const excerpt = document.createElement("span");
+      excerpt.className = "r-excerpt";
+      excerpt.innerHTML = r.excerpt; // Pagefind's excerpt of our own page text, with <mark> highlights.
+      a.append(title, excerpt);
+      li.append(a);
+      list.append(li);
+    }
+  }
+
+  document.querySelector("[data-search-open]")?.addEventListener("click", open);
+  document.querySelector("[data-search-close]")?.addEventListener("click", () => dialog?.close());
+  input?.addEventListener("input", () => {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => void run(input.value), 150);
+  });
+  dialog?.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close(); // click on the backdrop
+  });
+  document.addEventListener("keydown", (e) => {
+    const t = e.target as HTMLElement | null;
+    const typing = t && (t.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(t.tagName));
+    if (e.key === "/" && !typing && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      e.preventDefault();
+      open();
+    }
+  });
+</script>

@@ -20,9 +20,15 @@ interface Props {
   type?: "website" | "article" | "profile" | undefined;
   jsonLd?: Record<string, unknown> | undefined;
   footerNote?: string | undefined;
+  /** Include this page's main content in the site search (Pagefind). */
+  searchable?: boolean | undefined;
 }
 
-const { title, description, type, jsonLd, footerNote } = Astro.props;
+const { title, description, type, jsonLd, footerNote, searchable = true } = Astro.props;
+
+// Analytics only in the deployed build, never in dev, PR builds or the fixture build (tech spec §10).
+const beaconToken = process.env["PUBLIC_CF_BEACON_TOKEN"] || site.analytics.cloudflareToken;
+const analytics = process.env["ANALYTICS"] === "1" && beaconToken !== "";
 
 // The blog appears only once a post is published (PRD R10): nav link, feed link, footer RSS.
 const hasPosts = (await getPublishedPosts()).length > 0;
@@ -50,9 +56,19 @@ const footerLinks = hasPosts ? [...site.social, { label: "RSS", href: "/rss.xml"
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header name={site.name} initials={site.initials} links={nav} currentPath={Astro.url.pathname} />
-    <main id="main" tabindex="-1">
+    <main id="main" tabindex="-1" data-pagefind-body={searchable ? "" : undefined}>
       <slot />
     </main>
+    {
+      analytics && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: beaconToken })}
+        />
+      )
+    }
     <Footer name={site.name} email={site.email} links={footerLinks} note={footerNote} />
   </body>
 </html>
