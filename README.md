@@ -27,7 +27,7 @@ Built spec-first: the PRD, tech spec and milestone plan live in the owner's work
 First-time browser setup for e2e tests: `npx playwright install chromium`.
 
 ## Resume
-The public resume lives at `public/resume.pdf`. To replace it, run `node scripts/resume.mjs strip <file.pdf>`: it keeps only the title and the owner's name in the PDF metadata. Remove anything private (phone number, employer project details) from the PDF itself first.
+The public resume is built from `resume/resume.html`: edit it, then run `npm run build:resume` to regenerate `public/resume.pdf` (A4, metadata stripped to the title and the owner's name). `tests/unit/resume-source.test.ts` fails if the source contains a phone number or employer project details.
 
 ## Deploy
 Every push to `main` runs `.github/workflows/site.yml`: checks, build, then deploy to GitHub Pages. Pull requests run the checks and build only.

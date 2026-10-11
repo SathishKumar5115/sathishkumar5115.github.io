@@ -1,0 +1,121 @@
+<!doctype html>
+<!--
+  Public resume source. Rendered to public/resume.pdf by scripts/build-resume.mjs.
+  Rules (tests/unit/resume-source.test.ts): no phone number; the employer appears only as a
+  title line with no project description (decision 0001).
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Sathishkumar R – Resume</title>
+    <style>
+      @font-face {
+        font-family: "Assistant";
+        src: url("../node_modules/@fontsource-variable/assistant/files/assistant-latin-wght-normal.woff2") format("woff2");
+        font-weight: 200 800;
+      }
+      @page { size: A4; margin: 12mm 14mm; }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: "Assistant", sans-serif; font-size: 10pt; line-height: 1.32; color: #111; }
+      a { color: inherit; text-decoration: none; }
+      header { text-align: center; margin-bottom: 8pt; }
+      h1 { font-size: 22pt; font-weight: 600; letter-spacing: 0.5pt; margin: 0 0 2pt; }
+      .contact { font-size: 9pt; white-space: nowrap; }
+      .contact a { text-decoration: underline; }
+      .contact span + span::before { content: "·"; margin: 0 6pt; color: #666; }
+      h2 { font-size: 11pt; font-weight: 700; font-variant: small-caps; letter-spacing: 0.5pt;
+           border-bottom: 0.8pt solid #111; margin: 9pt 0 4pt; padding-bottom: 1pt; }
+      section.entry { margin-bottom: 5pt; break-inside: avoid; }
+      .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12pt; }
+      .row > span:last-child { white-space: nowrap; flex-shrink: 0; }
+      .title { font-weight: 700; }
+      .sub { font-style: italic; }
+      .tech { font-style: italic; font-weight: 400; }
+      ul { margin: 2pt 0 0; padding-left: 14pt; }
+      li { margin: 1pt 0; }
+      .skills p { margin: 1pt 0; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>SATHISHKUMAR R</h1>
+      <div class="contact">
+        <span><a href="mailto:rsathishkumar1963@gmail.com">rsathishkumar1963@gmail.com</a></span>
+        <span><a href="https://www.linkedin.com/in/sathishkumar-r-/">linkedin.com/in/sathishkumar-r-</a></span>
+        <span><a href="https://github.com/SathishKumar5115">github.com/SathishKumar5115</a></span>
+        <span><a href="https://sathishkumar5115.github.io">sathishkumar5115.github.io</a></span>
+      </div>
+    </header>
+
+    <h2>Education</h2>
+    <section class="entry">
+      <div class="row"><span class="title">Vellore Institute of Technology, Chennai</span><span class="title">July 2025 – Expected May 2027</span></div>
+      <div class="row"><span class="sub">M.Tech in Computer Science and Engineering</span><span class="sub">CGPA: 9.64/10.0</span></div>
+    </section>
+    <section class="entry">
+      <div class="row"><span class="title">Shiv Nadar University, Chennai</span><span class="title">September 2021 – June 2025</span></div>
+      <div class="row"><span class="sub">B.Tech in Computer Science and Engineering (IoT)</span><span class="sub">CGPA: 8.63/10.0</span></div>
+    </section>
+
+    <h2>Experience</h2>
+    <section class="entry" data-employer-entry>
+      <div class="row"><span class="title">Intel</span><span class="title">July 2026 – Present</span></div>
+      <div class="row"><span class="sub">AI Software Engineer Intern</span><span class="sub">India</span></div>
+    </section>
+    <section class="entry">
+      <div class="row"><span class="title">Tata Consultancy Services (TCS)</span><span class="title">May 2024 – July 2024</span></div>
+      <div class="row"><span class="sub">IoT Engineer Intern</span><span class="sub">Chennai, India</span></div>
+      <ul>
+        <li>Built IoT integration models for manufacturing, improving data collection efficiency by 30% via sensor deployment and edge computing; analysed pharma and automobile workflows, finding 5+ optimisations (QC accuracy +25%).</li>
+      </ul>
+    </section>
+    <section class="entry">
+      <div class="row"><span class="title">AppLever Tech</span><span class="title">Dec 2023 – Jan 2024</span></div>
+      <div class="row"><span class="sub">Software Developer Intern</span><span class="sub">Hybrid, Bangalore, India</span></div>
+      <ul>
+        <li>Engineered a Flutter event app with geofencing and the Google Maps API, cutting registration time by 40% and improving check-in accuracy by 50%; Firebase backend supported 1,000+ concurrent users with 100% sync reliability.</li>
+      </ul>
+    </section>
+    <section class="entry">
+      <div class="row"><span class="title">ISRO Propulsion Research Complex (IPRC)</span><span class="title">June 2023 – July 2023</span></div>
+      <div class="row"><span class="sub">In-Plant Trainee</span><span class="sub">Mahendragiri, India</span></div>
+      <ul>
+        <li>Hands-on with VLAN segmentation, firewall configuration and secure mail servers in a high-security facility.</li>
+      </ul>
+    </section>
+
+    <h2>Projects</h2>
+    <section class="entry">
+      <div class="row"><span><span class="title">Federated Learning Framework for NIDS</span> | <span class="tech">Python, TensorFlow, Differential Privacy, Byzantine Aggregation</span></span><span class="title">Sep 2025 – Present</span></div>
+      <ul><li>Developing a privacy-preserving collaborative NIDS without sharing network traffic; targeting 95% accuracy and 20% fewer false positives via Byzantine-resilient aggregation and adaptive differential privacy.</li></ul>
+    </section>
+    <section class="entry">
+      <div class="row"><span><span class="title">Ouroboros – LLM-Enhanced SSH Honeypot</span> | <span class="tech">Python, Paramiko, Flask, React, D3.js, Gemini</span></span><span class="title">2025 – Present</span></div>
+      <ul><li>Built an SSH honeypot in Python and Paramiko that uses Gemini 2.5 Flash to generate realistic terminal responses for unknown attacker commands, making it harder to detect via traditional fingerprinting.</li></ul>
+    </section>
+    <section class="entry">
+      <div class="row"><span><span class="title">FoodIndex – Surplus Food Marketplace</span> | <span class="tech">MERN Stack, MongoDB Geospatial, Node-Cron, React Context</span></span><span class="title">Jan 2026 – Feb 2026</span></div>
+      <ul><li>Architected a hyper-local food rescue platform with reverse Dutch auction pricing: MongoDB $geoNear discovery and cron-driven repricing via a 4-factor algorithm (40% time decay, 30% stock, 20% demand, 10% urgency).</li></ul>
+    </section>
+    <section class="entry">
+      <div class="row"><span><span class="title">Sentinels Network Monitor</span> | <span class="tech">Python, Flask, Scapy, SQLite, WebSockets</span></span><span class="title">Dec 2025</span></div>
+      <ul><li>Built a multi-threaded Scapy packet sniffer detecting SYN floods, UDP floods and port scans with 92% accuracy.</li></ul>
+    </section>
+    <section class="entry">
+      <div class="row"><span><span class="title">GHA-BFP+ – Build Failure Prediction Bot</span> | <span class="tech">Python, Machine Learning, GitHub Actions, Flask</span></span><span class="title">2025</span></div>
+      <ul><li>Built a GitHub Actions bot using a trained ML model to flag CI/CD runs likely to fail, cutting developer wait time.</li></ul>
+    </section>
+    <section class="entry">
+      <div class="row"><span><span class="title">Discord Bot Ecosystem</span> | <span class="tech">Python, Discord.py, MongoDB, Flask</span></span><span class="title">June 2022 – Aug 2023</span></div>
+      <ul><li>Created a multi-functional bot serving 6,000+ users across 20+ servers with a virtual economy and moderation tools, handling 50,000+ daily commands with 99.8% uptime on Heroku.</li></ul>
+    </section>
+
+    <h2>Technical Skills</h2>
+    <div class="skills">
+      <p><strong>Programming Languages:</strong> Python, JavaScript, Java, C, Dart, SQL, HTML/CSS</p>
+      <p><strong>Frameworks &amp; Libraries:</strong> React.js, Node.js, Express.js, Flask, Flutter</p>
+      <p><strong>Cloud &amp; Databases:</strong> Firebase, MongoDB, MySQL, AWS</p>
+      <p><strong>Developer Tools:</strong> Git, GitHub, Docker, VS Code, Postman, Android Studio, Figma</p>
+    </div>
+  </body>
+</html>

@@ -17,10 +17,10 @@ export const site = {
   email: "rsathishkumar1963@gmail.com",
   social: [
     { label: "GitHub", href: "https://github.com/SathishKumar5115", platform: "github" as const },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/sathishkumar-r/", platform: "linkedin" as const },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/sathishkumar-r-/", platform: "linkedin" as const },
   ],
   // Other profiles for structured data (JSON-LD sameAs).
-  sameAs: ["https://github.com/SathishKumar5115", "https://github.com/Gin5115", "https://www.linkedin.com/in/sathishkumar-r/"],
+  sameAs: ["https://github.com/SathishKumar5115", "https://github.com/Gin5115", "https://www.linkedin.com/in/sathishkumar-r-/"],
   resume: { href: "/resume.pdf", file: "public/resume.pdf" },
   ogImage: "/og-default.png",
   nav: [
