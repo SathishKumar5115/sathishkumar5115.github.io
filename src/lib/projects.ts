@@ -26,12 +26,13 @@ export function featuredProjects<T extends HasProjectData>(projects: readonly T[
   return sortProjects(featured);
 }
 
-type BadgeVariant = "violet" | "amber" | "green" | "default";
+type BadgeVariant = "violet" | "amber" | "green" | "blue" | "default";
 
 /** Label and badge colour for every status. The Record type forces every status to be handled. */
 export const statusBadge: Record<ProjectStatus, { label: string; variant: BadgeVariant }> = {
   idea: { label: "Idea", variant: "violet" },
   building: { label: "Building", variant: "amber" },
   live: { label: "Live", variant: "green" },
+  completed: { label: "Completed", variant: "blue" },
   archived: { label: "Archived", variant: "default" },
 };

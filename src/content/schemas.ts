@@ -1,7 +1,7 @@
 // Content schemas (tech spec §5). Shared by content.config.ts and the unit tests.
 import { z } from "astro/zod";
 
-export const projectStatuses = ["idea", "building", "live", "archived"] as const;
+export const projectStatuses = ["idea", "building", "live", "completed", "archived"] as const;
 export type ProjectStatus = (typeof projectStatuses)[number];
 
 export const projectSchema = z.object({
