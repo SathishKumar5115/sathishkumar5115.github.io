@@ -1,9 +1,42 @@
 ---
-// Wrapper for array-ui's Button (swap point, tech spec §7.1).
-import type { ComponentProps } from "astro/types";
-import Aui from "array-ui/astro/Button.astro";
+// Link styled as a button (v5): primary (accent), secondary (outlined) or inverse (text colour fill).
+interface Props {
+  href: string;
+  variant?: "primary" | "secondary" | "inverse";
+}
 
-type Props = ComponentProps<typeof Aui>;
+const { href, variant = "secondary" } = Astro.props;
 ---
 
-<Aui {...Astro.props}><slot /></Aui>
+<a href={href} class:list={["button", variant]}><slot /></a>
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: var(--radius-control);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .button:hover {
+    text-decoration: none;
+    opacity: 0.88;
+  }
+  .primary {
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 600;
+  }
+  .secondary {
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+  }
+  .inverse {
+    background: var(--text);
+    color: var(--bg);
+    font-weight: 600;
+  }
+</style>

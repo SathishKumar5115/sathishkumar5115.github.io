@@ -1,6 +1,16 @@
 ---
-// Wrapper for array-ui's ThemeScript: sets data-theme before first paint (no flash).
-import Aui from "array-ui/astro/ThemeScript.astro";
+// Sets data-theme on <html> before first paint (no flash): stored choice, else the system setting.
 ---
 
-<Aui />
+<script is:inline>
+  (function () {
+    var theme;
+    try {
+      theme = localStorage.getItem("theme");
+    } catch (e) {}
+    if (theme !== "light" && theme !== "dark") {
+      theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>

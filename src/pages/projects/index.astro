@@ -1,18 +1,49 @@
 ---
+// Projects index (v5): status filter (progressive enhancement) and a card grid sorted by `order`.
 import { getCollection } from "astro:content";
 import ProjectCard from "../../components/project/ProjectCard.astro";
+import SegmentedControl from "../../components/ui/SegmentedControl.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { sortProjects } from "../../lib/projects";
+import { site } from "../../config";
+import { sortProjects, statusBadge } from "../../lib/projects";
+import { projectStatuses } from "../../content/schemas";
 
 const projects = sortProjects(await getCollection("projects"));
+const filterOrder = ["building", "live", "idea", "completed", "archived"];
+const options = [
+  { value: "all", label: "All", count: projects.length },
+  ...[...projectStatuses]
+    .sort((a, b) => filterOrder.indexOf(a) - filterOrder.indexOf(b))
+    .map((s) => ({ value: s, label: statusBadge[s].label, count: projects.filter((p) => p.data.status === s).length }))
+    .filter((o) => o.count > 0),
+];
 ---
 
-<BaseLayout title="Projects · Sathishkumar R" description="Side projects: what they are, how they're built, and why.">
-  <div class="aui-container">
-    <h1>Projects</h1>
-    <p>Side projects for learning agentic engineering and building things people use.</p>
-    <div class="aui-stack" data-project-list>
+<BaseLayout title={`Projects · ${site.name}`} description="Things I'm building and things I've built, with the problem, approach and decisions behind each.">
+  <div class="container">
+    <section class="head">
+      <h1 class="page-title">Projects</h1>
+      <p class="lead">Things I'm building and things I've built. Each page covers the problem, the approach and the decisions behind it.</p>
+    </section>
+    <SegmentedControl label="Filter by status" target="#project-list" options={options} />
+    <div id="project-list" class="grid" data-project-list>
       {projects.map((project) => <ProjectCard project={project} headingLevel="h2" />)}
     </div>
   </div>
 </BaseLayout>
+
+<style>
+  .head {
+    padding: 64px 0 28px;
+  }
+  .head .page-title {
+    margin-bottom: 10px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    gap: 16px;
+    margin-top: 28px;
+    padding-bottom: 88px;
+  }
+</style>

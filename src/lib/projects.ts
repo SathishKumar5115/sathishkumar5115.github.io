@@ -1,4 +1,4 @@
-// Project list helpers (tech spec §5, §6).
+// Project list helpers (tech spec §5, §6; v5 design, decision 0011).
 import type { ProjectStatus } from "../content/schemas";
 
 export const MAX_FEATURED = 3;
@@ -26,13 +26,20 @@ export function featuredProjects<T extends HasProjectData>(projects: readonly T[
   return sortProjects(featured);
 }
 
-type BadgeVariant = "violet" | "amber" | "green" | "blue" | "default";
-
-/** Label and badge colour for every status. The Record type forces every status to be handled. */
-export const statusBadge: Record<ProjectStatus, { label: string; variant: BadgeVariant }> = {
-  idea: { label: "Idea", variant: "violet" },
-  building: { label: "Building", variant: "amber" },
-  live: { label: "Live", variant: "green" },
-  completed: { label: "Completed", variant: "blue" },
-  archived: { label: "Archived", variant: "default" },
+/** Label and tag tone for every status. The Record type forces every status to be handled. */
+export const statusBadge: Record<ProjectStatus, { label: string; tone: "active" | "neutral" }> = {
+  idea: { label: "Idea", tone: "neutral" },
+  building: { label: "Building", tone: "active" },
+  live: { label: "Live", tone: "active" },
+  completed: { label: "Completed", tone: "neutral" },
+  archived: { label: "Archived", tone: "neutral" },
 };
+
+/** Year label for cards and lists: "2025 –" for ongoing work, "2022 – 2023" for finished work spanning years. */
+export function projectYears(started: Date, updated: Date, status: ProjectStatus): string {
+  const from = started.getUTCFullYear();
+  if (status === "building" || status === "live") return `${from} –`;
+  if (status === "idea") return `${from}`;
+  const to = updated.getUTCFullYear();
+  return to > from ? `${from} – ${to}` : `${from}`;
+}

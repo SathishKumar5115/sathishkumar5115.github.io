@@ -1,16 +1,44 @@
 ---
-// Wrapper for array-ui's Footer. Always passes our own values: the upstream
-// defaults are Array UI's marketing links and text (tech spec §7.1).
-import Aui from "array-ui/astro/Footer.astro";
-
+// Site footer (v5): copyright and contact links on one line.
 interface Props {
-  copyright: string;
-  disclaimer?: string;
+  name: string;
+  email: string;
+  links: readonly { label: string; href: string }[];
+  note?: string | undefined;
 }
 
-const { copyright, disclaimer = "" } = Astro.props;
+const { name, email, links, note } = Astro.props;
+const year = new Date().getFullYear();
 ---
 
-<Aui columns={[]} disclaimer={disclaimer} copyright={copyright}>
-  {Astro.slots.has("socials") && <slot name="socials" slot="socials" />}
-</Aui>
+<footer class="container">
+  <div class="footer">
+    <span>© {year} {name}{note && ` · ${note}`}</span>
+    <span class="links">
+      <a href={`mailto:${email}`}>{email}</a>
+      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    </span>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px 32px;
+    padding-top: 28px;
+    padding-bottom: 44px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+  }
+  .footer a:hover {
+    color: var(--text);
+  }
+</style>

@@ -4,8 +4,8 @@ summary: An evidence-based weekly review. It compares what you planned with what
 status: idea
 track: A
 tags: [agentic, productivity, MCP, evals]
-featured: true
-order: 1
+featured: false
+order: 3
 started: 2026-10-10
 updated: 2026-10-11
 ---

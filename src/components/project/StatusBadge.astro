@@ -1,5 +1,5 @@
 ---
-import Badge from "../ui/Badge.astro";
+import Tag from "../ui/Tag.astro";
 import type { ProjectStatus } from "../../content/schemas";
 import { statusBadge } from "../../lib/projects";
 
@@ -7,7 +7,7 @@ interface Props {
   status: ProjectStatus;
 }
 
-const { label, variant } = statusBadge[Astro.props.status];
+const { label, tone } = statusBadge[Astro.props.status];
 ---
 
-<Badge variant={variant} data-status={Astro.props.status}>{label}</Badge>
+<Tag tone={tone} data-status={Astro.props.status}>{label}</Tag>

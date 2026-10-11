@@ -1,0 +1,29 @@
+---
+// Dense list row (v5): a monospace meta column (date or year) and the content.
+interface Props {
+  meta: string;
+}
+
+const { meta } = Astro.props;
+---
+
+<li class="row">
+  <span class="meta">{meta}</span>
+  <span class="content"><slot /></span>
+</li>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 2px 16px;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .meta {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+</style>

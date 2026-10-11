@@ -1,0 +1,78 @@
+---
+// Segmented filter (v5). Progressive enhancement: the control is hidden until its script runs, so
+// without JavaScript every item stays visible. Items to filter carry data-filter-value inside `target`.
+interface Props {
+  label: string;
+  target: string;
+  options: readonly { value: string; label: string; count: number }[];
+}
+
+const { label, target, options } = Astro.props;
+---
+
+<div class="segmented" role="group" aria-label={label} data-segmented={target} hidden>
+  {
+    options.map((o, i) => (
+      <button type="button" data-value={o.value} aria-pressed={i === 0 ? "true" : "false"}>
+        {o.label}
+        <span class="count">{o.count}</span>
+      </button>
+    ))
+  }
+</div>
+
+<style>
+  .segmented {
+    display: inline-flex;
+    flex-wrap: wrap;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-control);
+    overflow: hidden;
+  }
+  .segmented[hidden] {
+    display: none;
+  }
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 0;
+    border-right: 1px solid var(--line-strong);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  button:last-child {
+    border-right: 0;
+  }
+  button[aria-pressed="true"] {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .count {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    opacity: 0.75;
+  }
+</style>
+
+<script>
+  for (const group of document.querySelectorAll<HTMLElement>("[data-segmented]")) {
+    const target = document.querySelector(group.dataset["segmented"] ?? "");
+    if (!target) continue;
+    const buttons = [...group.querySelectorAll<HTMLButtonElement>("button[data-value]")];
+    const select = (value: string) => {
+      for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset["value"] === value));
+      for (const item of target.querySelectorAll<HTMLElement>("[data-filter-value]")) {
+        item.hidden = value !== "all" && item.dataset["filterValue"] !== value;
+      }
+    };
+    for (const b of buttons) b.addEventListener("click", () => select(b.dataset["value"] ?? "all"));
+    group.hidden = false;
+  }
+</script>

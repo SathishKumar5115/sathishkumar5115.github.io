@@ -3,14 +3,14 @@
 import { chromium } from "playwright";
 
 const name = "Sathishkumar R";
-const tagline = "Building side projects in agentic engineering.";
-const html = `<!doctype html><html><body style="margin:0;width:1200px;height:630px;background:#111113;
+const tagline = "Agents, security tools and apps, built end to end.";
+const html = `<!doctype html><html><body style="margin:0;width:1200px;height:630px;background:#0f0f11;
   color:#fbfbfe;font-family:ui-sans-serif,system-ui,sans-serif;display:flex;flex-direction:column;
-  justify-content:center;padding:0 96px;box-sizing:border-box;border-bottom:12px solid #e60012">
-  <div style="width:112px;height:112px;border:2px solid #393942;border-radius:16px;display:flex;
-    align-items:center;justify-content:center;font:600 44px ui-monospace,monospace;margin-bottom:48px">SR</div>
+  justify-content:center;padding:0 96px;box-sizing:border-box;border-bottom:8px solid #8da8ff">
+  <div style="width:96px;height:96px;background:#ededf0;color:#0f0f11;border-radius:8px;display:flex;
+    align-items:center;justify-content:center;font:500 36px ui-monospace,monospace;margin-bottom:48px">SR</div>
   <div style="font-size:76px;font-weight:700;letter-spacing:-1px">${name}</div>
-  <div style="font-size:36px;color:#ff5a64;margin-top:16px">${tagline}</div>
+  <div style="font-size:36px;color:#c9c9d1;margin-top:16px">${tagline}</div>
   <div style="font-size:28px;color:#8c8c98;margin-top:40px">sathishkumar5115.github.io</div>
 </body></html>`;
 

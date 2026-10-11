@@ -1,11 +1,11 @@
 ---
 title: This site
-summary: A portfolio and blog built spec-first with an AI coding agent. PRD, tech spec and milestones before code, and every milestone gated by tests.
+summary: My portfolio and blog, built with Astro and an AI coding agent, and tested on every change.
 status: building
 track: C
-tags: [Astro, accessibility, spec-driven]
-featured: true
-order: 3
+tags: [Astro, accessibility, Playwright]
+featured: false
+order: 2
 links:
   repo: https://github.com/SathishKumar5115/sathishkumar5115.github.io
 started: 2026-10-11

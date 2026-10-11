@@ -1,23 +1,32 @@
 ---
-// Theme toggle. Own markup instead of array-ui's ThemeToggle, which lacks
-// aria-pressed (tech spec §7 and §11). Keeps Array UI's styling class.
+// Theme toggle (tech spec §7, §11): a real button with aria-pressed; the choice is stored locally.
 ---
 
-<button
-  type="button"
-  class="aui-theme-toggle"
-  aria-label="Dark mode"
-  aria-pressed="false"
-  data-theme-toggle
->
-  <span class="site-icon-sun"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <circle cx="12" cy="12" r="5"></circle>
-    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
-  </svg></span>
-  <span class="site-icon-moon" hidden><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"  aria-hidden="true">
+<button type="button" class="toggle" aria-label="Dark mode" aria-pressed="false" data-theme-toggle>
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-  </svg></span>
+  </svg>
 </button>
+
+<style>
+  .toggle {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-control);
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .toggle:hover {
+    color: var(--text);
+    border-color: var(--line-strong);
+  }
+</style>
 
 <script>
   function currentTheme(): "light" | "dark" {
@@ -27,15 +36,11 @@
   function render(theme: "light" | "dark") {
     for (const button of document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")) {
       button.setAttribute("aria-pressed", String(theme === "dark"));
-      button.querySelector(".site-icon-sun")?.toggleAttribute("hidden", theme === "dark");
-      button.querySelector(".site-icon-moon")?.toggleAttribute("hidden", theme !== "dark");
     }
   }
 
   function apply(theme: "light" | "dark") {
-    const root = document.documentElement;
-    root.setAttribute("data-theme", theme);
-    root.classList.toggle("dark", theme === "dark");
+    document.documentElement.setAttribute("data-theme", theme);
     try {
       localStorage.setItem("theme", theme);
     } catch {

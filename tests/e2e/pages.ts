@@ -1,14 +1,14 @@
 // Every page type in the site. Extended as milestones add pages.
+// Project slugs in `order` (v5, decision 0011).
 export const projectSlugs = [
+  "ouroboros",
+  "portfolio",
   "retro",
   "unit-price-everywhere",
-  "portfolio",
-  "ouroboros",
-  "sentinels",
   "foodindex",
-  "gha-bfp-plus",
-  "discord-bot",
+  "sentinels",
   "warehouse-intrusion-detection",
+  "discord-bot",
 ];
 
 export const pages = ["/", "/projects/", ...projectSlugs.map((slug) => `/projects/${slug}/`), "/about/"];

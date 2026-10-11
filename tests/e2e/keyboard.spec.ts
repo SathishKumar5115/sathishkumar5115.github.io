@@ -25,18 +25,11 @@ test.describe("360px wide", () => {
     });
   }
 
-  test("menu button opens and closes the menu, Escape closes it", async ({ page }) => {
+  // v5 has no menu button: the nav wraps, so every link stays visible and reachable.
+  test("every main nav link is visible", async ({ page }) => {
     await page.goto("/");
-    const button = page.getByRole("button", { name: "Menu" });
-    const menu = page.locator("#site-mobile-menu");
-    await expect(button).toHaveAttribute("aria-expanded", "false");
-    await expect(menu).toBeHidden();
-    await button.click();
-    await expect(button).toHaveAttribute("aria-expanded", "true");
-    await expect(menu).toBeVisible();
-    await page.keyboard.press("Escape");
-    await expect(button).toHaveAttribute("aria-expanded", "false");
-    await expect(menu).toBeHidden();
-    await expect(button).toBeFocused();
+    for (const link of await page.locator('nav[aria-label="Main"] a').all()) {
+      await expect(link).toBeInViewport();
+    }
   });
 });
