@@ -27,6 +27,7 @@ jobs:
       - run: npm ci
       - run: npm run check:pinned
       - run: npm run check:aui-imports
+      - run: npm run check:resume
       - run: npm run check
       - run: npm run test:unit
       - run: npm run build

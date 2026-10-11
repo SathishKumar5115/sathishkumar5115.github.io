@@ -6,11 +6,12 @@ import SocialPill from "../components/ui/SocialPill.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { site } from "../config";
 import { featuredProjects } from "../lib/projects";
+import { personJsonLd } from "../lib/person";
 
 const featured = featuredProjects(await getCollection("projects"));
 ---
 
-<BaseLayout title={site.name} description={site.description}>
+<BaseLayout title={site.name} description={site.description} jsonLd={personJsonLd}>
   <div class="aui-container">
     <Hero title={site.name} subtitle={site.tagline}>
       <p>{site.intro}</p>

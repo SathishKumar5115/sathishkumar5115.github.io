@@ -1,0 +1,82 @@
+---
+// About (PRD P7): bio, skills, contact links, resume. Draft text for owner approval.
+import { statSync } from "node:fs";
+import Badge from "../components/ui/Badge.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../config";
+import { personJsonLd } from "../lib/person";
+
+// Fails the build if the resume is missing (PRD Q4).
+const resumeKb = Math.round(statSync(site.resume.file).size / 1024);
+
+const skills: { group: string; items: string[] }[] = [
+  { group: "Languages", items: ["Python", "JavaScript", "TypeScript", "Java", "C", "Dart", "SQL"] },
+  { group: "Frameworks", items: ["React", "Node.js", "Express", "Flask", "Flutter", "Astro"] },
+  { group: "Data & cloud", items: ["MongoDB", "MySQL", "Firebase", "AWS"] },
+  { group: "Tools", items: ["Git", "GitHub Actions", "Docker", "Playwright", "Figma"] },
+];
+---
+
+<BaseLayout
+  title={`About · ${site.name}`}
+  description={`About ${site.name}: background, skills and how to get in touch.`}
+  type="profile"
+  jsonLd={personJsonLd}
+>
+  <div class="aui-container" data-pagefind-body>
+    <h1>About</h1>
+    <div class="aui-prose">
+      <p>
+        I'm Sathishkumar: <strong>{site.role}</strong>, and an M.Tech student in Computer Science at
+        VIT Chennai. <em>Views on this site are my own.</em>
+      </p>
+      <p>
+        Outside work I build side projects to learn agentic engineering: agent loops, MCP, skills, hooks
+        and evals. I write down every decision and test every feature, and this site is built the same way.
+      </p>
+      <p>
+        Before that I built security tools (an LLM-powered SSH honeypot, a network intrusion detection
+        system), full-stack web apps, Flutter apps and a Discord bot used by thousands of people. I've
+        interned at TCS, AppLever Tech and ISRO's Propulsion Research Complex.
+      </p>
+
+      <h2>Skills</h2>
+    </div>
+    <dl class="aui-stack aui-stack-sm">
+      {
+        skills.map(({ group, items }) => (
+          <div>
+            <dt>
+              <strong>{group}</strong>
+            </dt>
+            <dd class="aui-row aui-row-xs aui-flex-wrap">
+              {items.map((item) => (
+                <Badge>{item}</Badge>
+              ))}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="aui-prose">
+      <h2>Contact</h2>
+      <ul>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        {site.social.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
+      </ul>
+
+      <h2>Resume</h2>
+      <p>
+        <a href={site.resume.href}>Download my resume (PDF, {resumeKb} KB)</a>
+      </p>
+
+      <h2>This site</h2>
+      <p>
+        Built with Astro and the Array UI design system, hosted on GitHub Pages. It uses cookie-free
+        analytics (Cloudflare Web Analytics) and stores nothing about you except your theme choice, in your
+        own browser.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,9 +1,9 @@
 // M1 acceptance: axe reports 0 violations on every page, in both themes.
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-import { pages } from "./pages";
+import { notFoundPath, pages } from "./pages";
 
-for (const path of pages) {
+for (const path of [...pages, notFoundPath]) {
   for (const scheme of ["light", "dark"] as const) {
     test(`axe: ${path} (${scheme})`, async ({ page }) => {
       await page.emulateMedia({ colorScheme: scheme });

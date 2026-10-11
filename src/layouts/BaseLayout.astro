@@ -1,7 +1,9 @@
 ---
 // Page shell: landmarks, skip link, header, footer, theme bootstrap, styles (tech spec §7, §11).
+import Seo from "../components/Seo.astro";
 import DesignSystem from "../components/ui/DesignSystem.astro";
 import Footer from "../components/ui/Footer.astro";
+import SocialPill from "../components/ui/SocialPill.astro";
 import ThemeScript from "../components/ui/ThemeScript.astro";
 import TopNav from "../components/ui/TopNav.astro";
 import { site } from "../config";
@@ -9,9 +11,11 @@ import { site } from "../config";
 interface Props {
   title: string;
   description: string;
+  type?: "website" | "article" | "profile";
+  jsonLd?: Record<string, unknown>;
 }
 
-const { title, description } = Astro.props;
+const { title, description, type, jsonLd } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
@@ -21,8 +25,7 @@ const year = new Date().getFullYear();
     <meta charset="utf-8" />
     <ThemeScript />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <Seo title={title} description={description} type={type} jsonLd={jsonLd} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <DesignSystem />
   </head>
@@ -32,6 +35,11 @@ const year = new Date().getFullYear();
     <main id="main" tabindex="-1">
       <slot />
     </main>
-    <Footer copyright={`© ${year} ${site.name}`} />
+    <Footer copyright={`© ${year} ${site.name}`}>
+      <Fragment slot="socials">
+        {site.social.map((s) => <SocialPill href={s.href} label={s.label} platform={s.platform} />)}
+        <SocialPill href={`mailto:${site.email}`} label="Email" platform="custom" />
+      </Fragment>
+    </Footer>
   </body>
 </html>
