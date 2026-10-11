@@ -5,7 +5,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { site } from "../config";
 ---
 
-<BaseLayout title={`Page not found · ${site.name}`} description="This page doesn't exist.">
+<BaseLayout title={`Page not found · ${site.name}`} description="This page doesn't exist." searchable={false}>
   <div class="container wrap">
     <p class="mono muted code">404</p>
     <h1 class="page-title">Page not found</h1>

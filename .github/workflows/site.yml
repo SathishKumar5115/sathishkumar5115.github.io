@@ -28,17 +28,25 @@ jobs:
       - run: npm run check:pinned
       - run: npm run check:no-array-ui
       - run: npm run check:resume
+      - run: npm run check:employer
       - run: npm run check
       - run: npm run test:unit
       - run: npm run build
+      - run: npm run check:built
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - run: npm run test:e2e:blog
+      - run: npm run lighthouse
+      # The deployed build is the only one with analytics (tech spec §10).
+      - if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: ANALYTICS=1 npm run build
       - if: failure()
         uses: actions/upload-artifact@v7
         with:
           name: playwright-report
-          path: test-results/
+          path: |
+            test-results/
+            .lighthouseci-report/
           retention-days: 7
       - if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v5
