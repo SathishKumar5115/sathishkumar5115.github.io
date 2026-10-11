@@ -1,0 +1,18 @@
+---
+import { getCollection } from "astro:content";
+import ProjectCard from "../../components/project/ProjectCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { sortProjects } from "../../lib/projects";
+
+const projects = sortProjects(await getCollection("projects"));
+---
+
+<BaseLayout title="Projects · Sathishkumar R" description="Side projects: what they are, how they're built, and why.">
+  <div class="aui-container">
+    <h1>Projects</h1>
+    <p>Side projects for learning agentic engineering and building things people use.</p>
+    <div class="aui-stack" data-project-list>
+      {projects.map((project) => <ProjectCard project={project} headingLevel="h2" />)}
+    </div>
+  </div>
+</BaseLayout>

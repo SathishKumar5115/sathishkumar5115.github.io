@@ -60,3 +60,16 @@ export function parseThemes(css: string): { light: Tokens; dark: Tokens } {
   };
   return { light: resolve(light), dark: resolve({ ...light, ...darkOnly }) };
 }
+
+/** `color-mix(in srgb, fg <weight>, bg)`: the colour of `fg` at `weight` (0–1) over an opaque `bg`. */
+export function mix(fg: string, bg: string, weight: number): string {
+  const a = parseHex(fg);
+  const b = parseHex(bg);
+  return (
+    "#" +
+    a
+      .map((v, i) => Math.round(v * weight + b[i]! * (1 - weight)))
+      .map((v) => v.toString(16).padStart(2, "0"))
+      .join("")
+  );
+}

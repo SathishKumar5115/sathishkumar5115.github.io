@@ -1,0 +1,55 @@
+---
+// Project page (PRD P3): header, body (Problem, Approach, Key decisions), then Status and Links.
+import type { CollectionEntry } from "astro:content";
+import Badge from "../components/ui/Badge.astro";
+import StatusBadge from "../components/project/StatusBadge.astro";
+import BaseLayout from "./BaseLayout.astro";
+import { statusBadge } from "../lib/projects";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+const { title, summary, status, tags, links, started, updated } = project.data;
+const linkItems = [
+  { label: "Source code", href: links.repo },
+  { label: "Store listing", href: links.store },
+  { label: "Live demo", href: links.demo },
+].filter((l): l is { label: string; href: string } => Boolean(l.href));
+const date = (d: Date) => d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+---
+
+<BaseLayout title={`${title} · Projects`} description={summary}>
+  <article class="aui-container" data-pagefind-body>
+    <p><a href="/projects/">← All projects</a></p>
+    <h1>{title}</h1>
+    <p>{summary}</p>
+    <div class="aui-row aui-row-xs aui-flex-wrap">
+      <StatusBadge status={status} />
+      {tags.map((tag) => <Badge>{tag}</Badge>)}
+    </div>
+    <div class="aui-prose">
+      <slot />
+      <h2>Status</h2>
+      <p>
+        <strong>{statusBadge[status].label}.</strong> Started {date(started)}, last updated{" "}
+        <time datetime={updated.toISOString().slice(0, 10)}>{date(updated)}</time>.
+      </p>
+      <h2>Links</h2>
+      {
+        linkItems.length > 0 ? (
+          <ul>
+            {linkItems.map((l) => (
+              <li>
+                <a href={l.href}>{l.label}</a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No public links yet.</p>
+        )
+      }
+    </div>
+  </article>
+</BaseLayout>

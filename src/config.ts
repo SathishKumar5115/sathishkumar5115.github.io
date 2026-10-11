@@ -9,7 +9,13 @@ export const site = {
   name: "Sathishkumar R",
   initials: "SR",
   url: "https://sathishkumar5115.github.io",
-  description: "Portfolio of Sathishkumar R.",
-  // Projects (M2) and About (M3) are added when their pages exist.
-  nav: [{ label: "Home", href: "/" }] satisfies NavLink[],
+  description: "Sathishkumar R builds side projects to learn agentic engineering and ships things people use.",
+  tagline: "Building side projects in agentic engineering.",
+  intro: "I write down every decision, test every feature, and build in public. Here's what I'm working on.",
+  social: [{ label: "GitHub", href: "https://github.com/SathishKumar5115", platform: "github" as const }],
+  // About (M3) is added when its page exists.
+  nav: [
+    { label: "Home", href: "/" },
+    { label: "Projects", href: "/projects/" },
+  ] satisfies NavLink[],
 } as const;
