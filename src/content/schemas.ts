@@ -30,3 +30,16 @@ export const postSchema = z.object({
   draft: z.boolean().default(true),
   toc: z.boolean().optional(),
 });
+
+// Shelf (PRD P9, M4.5): tools, links and music, one line each.
+export const shelfTypes = ["tool", "link", "music"] as const;
+export type ShelfType = (typeof shelfTypes)[number];
+
+export const shelfSchema = z.object({
+  name: z.string().min(1),
+  type: z.enum(shelfTypes),
+  tag: z.string().min(1).max(24),
+  note: z.string().min(1).max(160),
+  url: z.url(),
+  added: z.coerce.date(),
+});

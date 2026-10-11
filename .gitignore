@@ -3,3 +3,10 @@ dist/
 .astro/
 test-results/
 playwright-report/
+dist-blog/
+.shots/
+.lighthouseci/
+.lighthouseci-report/
+
+# Chrome profile folders that Lighthouse (chrome-launcher on WSL) creates in the working directory
+/C:*

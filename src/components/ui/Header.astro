@@ -1,6 +1,7 @@
 ---
 // Site header (v5): monogram + name, main nav, theme toggle. The nav wraps on small screens.
 import type { NavLink } from "../../config";
+import Search from "./Search.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 
 interface Props {
@@ -28,6 +29,7 @@ const isCurrent = (href: string) => href !== "/" && href.endsWith("/") && curren
           </a>
         ))
       }
+      <Search />
       <ThemeToggle />
     </nav>
   </div>
@@ -91,6 +93,6 @@ const isCurrent = (href: string) => href !== "/" && href.endsWith("/") && curren
     font-weight: 600;
   }
   .nav :global([data-theme-toggle]) {
-    margin-left: 8px;
+    margin-left: 6px;
   }
 </style>

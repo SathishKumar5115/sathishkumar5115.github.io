@@ -11,7 +11,7 @@ export const projectSlugs = [
   "discord-bot",
 ];
 
-export const pages = ["/", "/projects/", ...projectSlugs.map((slug) => `/projects/${slug}/`), "/about/"];
+export const pages = ["/", "/projects/", ...projectSlugs.map((slug) => `/projects/${slug}/`), "/about/", "/shelf/"];
 
 // Rendered by the 404 page (any unknown URL).
 export const notFoundPath = "/this-page-does-not-exist/";

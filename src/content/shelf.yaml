@@ -1,0 +1,30 @@
+# Shelf (PRD P9): one entry per item. type: tool | link | music. A type with no entries is hidden.
+# Fields: id (unique, url-safe), name, type, tag (short category), note (one line, max 160), url, added (date).
+- id: claude-code
+  name: Claude Code
+  type: tool
+  tag: AI agent
+  note: The coding agent I build with. Every change still goes through tests and my own review.
+  url: https://claude.com/product/claude-code
+  added: 2026-10-11
+- id: px0
+  name: px0
+  type: tool
+  tag: code review
+  note: A fast, local, read-only IDE for reviewing AI-written code and pull requests.
+  url: https://px0.ai/
+  added: 2026-10-11
+- id: astro
+  name: Astro
+  type: tool
+  tag: framework
+  note: Static-first web framework. This site is built on it.
+  url: https://astro.build/
+  added: 2026-10-11
+- id: playwright
+  name: Playwright
+  type: tool
+  tag: testing
+  note: Browser tests for this site; it also renders my resume PDF.
+  url: https://playwright.dev/
+  added: 2026-10-11

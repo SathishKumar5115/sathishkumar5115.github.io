@@ -1,0 +1,206 @@
+---
+// Blog post (v5): title, summary, meta, optional "On this page" sidebar, prose, reply note, older/newer.
+import type { MarkdownHeading } from "astro";
+import Card from "../components/ui/Card.astro";
+import BaseLayout from "./BaseLayout.astro";
+import { site } from "../config";
+import { isoDate, longDate, type Post } from "../lib/blog";
+import { readingTime, tagSlug } from "../lib/posts";
+
+interface Props {
+  post: Post;
+  headings: MarkdownHeading[];
+  newer?: Post | undefined;
+  older?: Post | undefined;
+}
+
+const { post, headings, newer, older } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, toc } = post.data;
+const sections = headings.filter((h) => h.depth === 2);
+const showToc = toc ?? sections.length >= 3;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  description,
+  datePublished: isoDate(pubDate),
+  ...(updatedDate ? { dateModified: isoDate(updatedDate) } : {}),
+  author: { "@type": "Person", name: site.name, url: site.url },
+};
+---
+
+<BaseLayout title={`${title} · ${site.name}`} description={description} type="article" jsonLd={jsonLd}>
+  <div class="container">
+    <section class="head">
+      <p class="back"><a href="/blog/" class="muted">← All writing</a></p>
+      <h1 class="title">{title}</h1>
+      <p class="summary">{description}</p>
+      <p class="meta">
+        <time datetime={isoDate(pubDate)}>{longDate(pubDate)}</time>
+        <span aria-hidden="true">·</span>
+        <span>{readingTime(post.body ?? "")} min read</span>
+        {updatedDate && (
+          <>
+            <span aria-hidden="true">·</span>
+            <span>Updated <time datetime={isoDate(updatedDate)}>{longDate(updatedDate)}</time></span>
+          </>
+        )}
+        {tags.map((t) => <a href={`/tags/${tagSlug(t)}/`}>{t}</a>)}
+      </p>
+    </section>
+
+    <div class:list={["layout", { "has-toc": showToc }]}>
+      {
+        showToc && (
+          <aside class="toc" aria-labelledby="toc-heading">
+            <h2 id="toc-heading" class="eyebrow">On this page</h2>
+            <ol>
+              {sections.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`}>{h.text}</a>
+                </li>
+              ))}
+            </ol>
+          </aside>
+        )
+      }
+      <article class="prose body">
+        <slot />
+        <p class="reply">
+          Thoughts or corrections? Email me at <a href={`mailto:${site.email}`}>{site.email}</a>.
+        </p>
+      </article>
+    </div>
+
+    {
+      (older || newer) && (
+        <nav aria-label="More writing" class="pager">
+          {older ? (
+            <Card href={`/blog/${older.id}/`}>
+              <span class="pager-label">← Older</span>
+              <span class="card-title pager-title">{older.data.title}</span>
+            </Card>
+          ) : (
+            <span />
+          )}
+          {newer ? (
+            <Card href={`/blog/${newer.id}/`} class="pager-next">
+              <span class="pager-label">Newer →</span>
+              <span class="card-title pager-title">{newer.data.title}</span>
+            </Card>
+          ) : (
+            <span />
+          )}
+        </nav>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .head {
+    padding: 48px 0 32px;
+    max-width: 720px;
+  }
+  .back {
+    margin-bottom: 24px;
+    font-size: 15px;
+  }
+  .title {
+    font-size: clamp(32px, 5vw, 42px);
+    line-height: 1.12;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+  .summary {
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--text-soft);
+    margin-bottom: 18px;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .meta a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px 56px;
+    align-items: start;
+    padding: 36px 0 64px;
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 900px) {
+    .layout.has-toc {
+      grid-template-columns: minmax(0, 720px) 220px;
+    }
+    .has-toc .toc {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .has-toc .body {
+      grid-column: 1;
+      grid-row: 1;
+    }
+  }
+  .body {
+    min-width: 0;
+    max-width: 720px;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+  .toc h2 {
+    margin-bottom: 12px;
+  }
+  .toc ol {
+    list-style: none;
+    padding: 0 0 0 14px;
+    border-left: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .toc a {
+    color: var(--text-muted);
+  }
+  .toc a:hover {
+    color: var(--text);
+  }
+  .reply {
+    margin-top: 2em;
+    padding: 16px 18px;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font-size: 16px;
+    color: var(--text-muted);
+  }
+  .pager {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: 16px;
+    padding-bottom: 72px;
+  }
+  .pager-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .pager-title {
+    font-weight: 600;
+  }
+  .pager :global(.pager-next) {
+    text-align: right;
+  }
+</style>

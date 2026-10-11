@@ -1,0 +1,114 @@
+---
+// Writing index (v5). Built only when at least one post is published (PRD R10).
+import type { GetStaticPaths, Page } from "astro";
+import PostRow from "../../components/blog/PostRow.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { site } from "../../config";
+import { allTags, getPublishedPosts, type Post } from "../../lib/blog";
+import { postsByYear } from "../../lib/posts";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getPublishedPosts();
+  if (posts.length === 0) return [];
+  return paginate(posts, { pageSize: 20, props: { tags: allTags(posts) } });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<Post>;
+  tags: ReturnType<typeof allTags>;
+}
+
+const { page, tags } = Astro.props;
+const groups = postsByYear(page.data);
+---
+
+<BaseLayout title={`Writing · ${site.name}`} description="Notes on what I learn while building: agents, security and the web.">
+  <div class="container">
+    <div class="narrow">
+      <section class="head">
+        <h1 class="page-title">Writing</h1>
+        <p class="lead">Notes on what I learn while building: agents, security and the web.</p>
+        <div class="topics">
+          <span class="muted label">Topics:</span>
+          {tags.map((t) => <a href={`/tags/${t.slug}/`} class="topic">{t.tag}</a>)}
+          <a href="/rss.xml" class="link-accent rss">RSS feed</a>
+        </div>
+      </section>
+      {
+        groups.map((g) => (
+          <section aria-labelledby={`y${g.year}`} class="year">
+            <h2 id={`y${g.year}`} class="year-title">{g.year}</h2>
+            <ol class="rows">
+              {g.posts.map((post) => (
+                <PostRow post={post} />
+              ))}
+            </ol>
+          </section>
+        ))
+      }
+      {
+        (page.url.prev || page.url.next) && (
+          <nav aria-label="Pages" class="pager">
+            {page.url.prev ? <a href={page.url.prev}>← Newer</a> : <span />}
+            {page.url.next && <a href={page.url.next}>Older →</a>}
+          </nav>
+        )
+      }
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 760px;
+    padding-bottom: 88px;
+  }
+  .head {
+    padding: 64px 0 32px;
+  }
+  .head .page-title {
+    margin-bottom: 10px;
+  }
+  .topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-top: 18px;
+  }
+  .label {
+    font-size: 14px;
+    margin-right: 4px;
+  }
+  .topic {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    padding: 3px 9px;
+    border-radius: var(--radius-control);
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .rss {
+    margin-left: auto;
+    font-size: 14px;
+  }
+  .year {
+    padding-bottom: 32px;
+  }
+  .year-title {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .rows {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  .pager {
+    display: flex;
+    justify-content: space-between;
+  }
+</style>

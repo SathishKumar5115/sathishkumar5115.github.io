@@ -1,0 +1,90 @@
+---
+// Shelf (v5, PRD P9): tools, links and music. The type filter appears only when there are 2+ types;
+// types with no entries never show. Built only when the shelf has entries.
+import { getCollection } from "astro:content";
+import SegmentedControl from "../../components/ui/SegmentedControl.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { site } from "../../config";
+import { shelfTypeLabels, sortShelf, visibleTypes } from "../../lib/shelf";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("shelf");
+  return entries.length > 0 ? [{ params: {} }] : [];
+}
+
+const entries = sortShelf(await getCollection("shelf"));
+const types = visibleTypes(entries);
+const options = types.map((t) => ({
+  value: t,
+  label: shelfTypeLabels[t],
+  count: entries.filter((e) => e.data.type === t).length,
+}));
+---
+
+<BaseLayout title={`Shelf · ${site.name}`} description="Tools I use, links worth your time, and music I keep coming back to.">
+  <div class="container">
+    <div class="narrow">
+      <section class="head">
+        <h1 class="page-title">Shelf</h1>
+        <p class="lead">Tools I use, links worth your time, and music I keep coming back to.</p>
+      </section>
+      {
+        types.length > 1 && (
+          <SegmentedControl label="Shelf sections" target="#shelf-list" options={[{ value: "all", label: "All", count: entries.length }, ...options]} />
+        )
+      }
+      <ul id="shelf-list" class="rows">
+        {
+          entries.map((e) => (
+            <li class="row" data-shelf={e.id} data-filter-value={e.data.type}>
+              <a href={e.data.url} class="name">{e.data.name}</a>
+              <span class="tag">{e.data.tag}</span>
+              <span class="note">{e.data.note}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 760px;
+    padding-bottom: 88px;
+  }
+  .head {
+    padding: 64px 0 28px;
+  }
+  .head .page-title {
+    margin-bottom: 10px;
+  }
+  .rows {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2px 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .name {
+    font-weight: 600;
+    font-size: 17px;
+  }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--text-muted);
+    align-self: center;
+  }
+  .note {
+    grid-column: 1 / -1;
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+</style>

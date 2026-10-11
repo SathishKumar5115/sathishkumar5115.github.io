@@ -1,0 +1,46 @@
+---
+// One post in a list (v5 Writing): date, title, reading time, description.
+import type { Post } from "../../lib/blog";
+import { shortDate, isoDate } from "../../lib/blog";
+import { readingTime } from "../../lib/posts";
+
+interface Props {
+  post: Post;
+  showDescription?: boolean;
+}
+
+const { post, showDescription = true } = Astro.props;
+---
+
+<li class="row" data-post={post.id}>
+  <time class="date" datetime={isoDate(post.data.pubDate)}>{shortDate(post.data.pubDate)}</time>
+  <a href={`/blog/${post.id}/`} class="title">{post.data.title}</a>
+  <span class="read">{readingTime(post.body ?? "")} min</span>
+  {showDescription && <span class="desc">{post.data.description}</span>}
+</li>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+    gap: 2px 16px;
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .date,
+  .read {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .title {
+    font-weight: 600;
+    font-size: 17px;
+  }
+  .desc {
+    grid-column: 2 / -1;
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+</style>
