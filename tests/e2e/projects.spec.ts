@@ -7,7 +7,7 @@ test("projects index lists every project in `order`", async ({ page }) => {
   const ids = await page.locator("[data-project-list] [data-project]").evaluateAll((els) =>
     els.map((el) => el.getAttribute("data-project")),
   );
-  expect(ids).toEqual(["retro", "unit-price-everywhere", "portfolio"]);
+  expect(ids).toEqual(projectSlugs);
 });
 
 test("every project card has a status badge", async ({ page }) => {
