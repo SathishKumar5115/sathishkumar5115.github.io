@@ -1,0 +1,21 @@
+{
+  "name": "sathishkumar5115-site",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.19.0" },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "check:pinned": "node scripts/check-pinned.mjs",
+    "ci": "npm run check:pinned && npm run check && npm run build"
+  },
+  "dependencies": {
+    "astro": "7.3.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "typescript": "6.0.3"
+  }
+}
