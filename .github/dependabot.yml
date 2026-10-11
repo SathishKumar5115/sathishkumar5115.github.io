@@ -6,6 +6,11 @@ updates:
     schedule:
       interval: weekly
     versioning-strategy: increase
+    ignore:
+      # @astrojs/check 0.9.x supports TypeScript 5-6 only (peer dependency).
+      # Remove this once @astrojs/check supports TypeScript 7.
+      - dependency-name: typescript
+        versions: [">=7.0.0"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
