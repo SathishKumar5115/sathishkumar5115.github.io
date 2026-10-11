@@ -30,6 +30,9 @@ First-time browser setup for e2e tests: `npx playwright install chromium`.
 ## Writing a post
 Copy `src/content/posts/_post-template.md` to `src/content/posts/<url-slug>.md` (or `.mdx`), write it, and set `draft: false`. The first published post turns on the Writing page, the nav link, the RSS feed and the Writing list on Home. Drafts never appear anywhere.
 
+## Adding to the Shelf
+Add an entry to `src/content/shelf.yaml` (id, name, type `tool | link | music`, tag, note, url, added). A type with no entries stays hidden; the filter appears once there are two types.
+
 ## Resume
 The public resume is built from `resume/resume.html`: edit it, then run `npm run build:resume` to regenerate `public/resume.pdf` (A4, metadata stripped to the title and the owner's name). `tests/unit/resume-source.test.ts` fails if the source contains a phone number or employer project details.
 

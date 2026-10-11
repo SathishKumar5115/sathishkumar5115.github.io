@@ -2,6 +2,7 @@
 // Home (v5): intro and "Now" card, featured projects, more projects. Writing (M4) and the shelf
 // preview (M4.5) appear here once they have content.
 import { getCollection } from "astro:content";
+import { shelfTypeLabels, sortShelf } from "../lib/shelf";
 import ProjectCard from "../components/project/ProjectCard.astro";
 import Button from "../components/ui/Button.astro";
 import PostRow from "../components/blog/PostRow.astro";
@@ -16,6 +17,7 @@ const projects = await getCollection("projects");
 const featured = featuredProjects(projects);
 const more = sortProjects(projects.filter((p) => !p.data.featured));
 const latestPosts = (await getPublishedPosts()).slice(0, 3);
+const shelfPreview = sortShelf(await getCollection("shelf")).slice(0, 3);
 const updated = new Date(site.now.updated).toLocaleDateString("en-GB", { month: "short", year: "numeric", timeZone: "UTC" });
 ---
 
@@ -89,6 +91,25 @@ const updated = new Date(site.now.updated).toLocaleDateString("en-GB", { month: 
         </ul>
       </section>
     </div>
+
+    {
+      shelfPreview.length > 0 && (
+        <section aria-labelledby="shelf-heading" class="block" data-shelf-preview>
+          <div class="block-head">
+            <h2 id="shelf-heading" class="section-title">On the shelf</h2>
+            <a href="/shelf/" class="link-accent">The whole shelf →</a>
+          </div>
+          <ul class="rows">
+            {shelfPreview.map((e) => (
+              <ListRow meta={shelfTypeLabels[e.data.type].replace(/s$/, "")}>
+                <a href={e.data.url} class="row-title">{e.data.name}</a>
+                <span class="muted"> · {e.data.note}</span>
+              </ListRow>
+            ))}
+          </ul>
+        </section>
+      )
+    }
   </div>
 </BaseLayout>
 

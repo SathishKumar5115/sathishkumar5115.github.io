@@ -11,6 +11,7 @@ import Footer from "../components/ui/Footer.astro";
 import Header from "../components/ui/Header.astro";
 import ThemeScript from "../components/ui/ThemeScript.astro";
 import { site, type NavLink } from "../config";
+import { getCollection } from "astro:content";
 import { getPublishedPosts } from "../lib/blog";
 
 interface Props {
@@ -25,8 +26,13 @@ const { title, description, type, jsonLd, footerNote } = Astro.props;
 
 // The blog appears only once a post is published (PRD R10): nav link, feed link, footer RSS.
 const hasPosts = (await getPublishedPosts()).length > 0;
-const writing: NavLink = { label: "Writing", href: "/blog/" };
-const nav: NavLink[] = site.nav.flatMap((link, i) => (hasPosts && i === 0 ? [link, writing] : [link]));
+// Shelf appears once it has an entry (PRD P9).
+const hasShelf = (await getCollection("shelf")).length > 0;
+const extra: NavLink[] = [
+  ...(hasPosts ? [{ label: "Writing", href: "/blog/" }] : []),
+  ...(hasShelf ? [{ label: "Shelf", href: "/shelf/" }] : []),
+];
+const nav: NavLink[] = site.nav.flatMap((link, i) => (i === 0 ? [link, ...extra] : [link]));
 const footerLinks = hasPosts ? [...site.social, { label: "RSS", href: "/rss.xml" }] : [...site.social];
 ---
 

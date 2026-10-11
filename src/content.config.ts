@@ -1,8 +1,8 @@
 // Content collections (tech spec §5). Frontmatter is validated at build time.
 import { defineCollection } from "astro:content";
-import { glob } from "astro/loaders";
+import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
-import { postSchema, projectSchema } from "./content/schemas";
+import { postSchema, projectSchema, shelfSchema } from "./content/schemas";
 
 const projects = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
@@ -26,4 +26,10 @@ const posts = defineCollection({
   schema: postSchema,
 });
 
-export const collections = { projects, posts };
+// Shelf entries live in one YAML file (PRD P9, M4.5).
+const shelf = defineCollection({
+  loader: file("src/content/shelf.yaml"),
+  schema: shelfSchema,
+});
+
+export const collections = { projects, posts, shelf };
