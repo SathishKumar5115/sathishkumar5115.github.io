@@ -11,10 +11,10 @@ export const site = {
   url: "https://sathishkumar5115.github.io",
   description:
     "Sathishkumar R builds software end to end: agents that do real work, security tools that catch real attacks, and apps people use.",
-  // Home intro (v5 design).
-  eyebrow: "M.Tech student · AI software engineering intern",
+  // Home intro (v5 design). The eyebrow is built from role and employer below.
   pitch: "I build software end to end: agents that do real work, security tools that catch real attacks, and apps people use.",
-  // The only place the employer is named (decision 0001). Shown on About only; the CI guardrail (M5) checks this.
+  // The only place the employer is named (decision 0001). Shown on the Home intro line and on About only;
+  // tests/e2e/content.spec.ts and the CI guardrail (M5) check this.
   employer: "Intel",
   role: "AI Software Engineer Intern",
   email: "rsathishkumar1963@gmail.com",
@@ -36,9 +36,9 @@ export const site = {
   now: {
     updated: "2026-10-11",
     items: [
-      { title: "AI software engineering intern", detail: "Since July 2026" },
-      { title: "M.Tech, Computer Science", detail: "VIT, 2025 – 2027" },
       { title: "Building Retro", detail: "An agent that runs my weekly review" },
+      { title: "Validating Unit Price Everywhere", detail: "A browser extension for grocery prices" },
+      { title: "Building this site", detail: "Portfolio and blog, made with Astro" },
     ],
   },
 } as const;

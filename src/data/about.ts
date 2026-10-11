@@ -3,7 +3,7 @@ import { site } from "../config";
 
 export const whoami: { key: string; value: string }[] = [
   { key: "name", value: site.name },
-  { key: "studying", value: "M.Tech CSE, VIT (2025 – 27)" },
+  { key: "role", value: `${site.role} @ ${site.employer}` },
   { key: "stack", value: "python, typescript, react, flask, flutter" },
   { key: "into", value: "agents, security, developer tools" },
   { key: "contact", value: site.email },
