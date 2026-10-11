@@ -1,0 +1,36 @@
+---
+// Page shell: landmarks, skip link, header, footer, theme bootstrap, styles (tech spec §7, §11).
+import DesignSystem from "../components/ui/DesignSystem.astro";
+import Footer from "../components/ui/Footer.astro";
+import ThemeScript from "../components/ui/ThemeScript.astro";
+import TopNav from "../components/ui/TopNav.astro";
+import { site } from "../config";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <ThemeScript />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <DesignSystem />
+  </head>
+  <body class="aui-body">
+    <a class="site-skip-link" href="#main">Skip to content</a>
+    <TopNav name={site.name} initials={site.initials} links={site.nav} currentPath={Astro.url.pathname} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer copyright={`© ${year} ${site.name}`} />
+  </body>
+</html>

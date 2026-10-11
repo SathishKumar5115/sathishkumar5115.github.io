@@ -1,0 +1,13 @@
+---
+// Loads the design system: array-ui styles, self-hosted fonts and our tokens (tech spec §7).
+// Rendered once in <head> by BaseLayout. The only place that imports array-ui CSS.
+import "array-ui/base.css";
+import "array-ui/components.css";
+import "@fontsource-variable/assistant/wght.css";
+import "@fontsource/ibm-plex-mono/latin-400.css";
+import "@fontsource/ibm-plex-mono/latin-600.css";
+import "../../design/tokens.css";
+import assistantLatin from "@fontsource-variable/assistant/files/assistant-latin-wght-normal.woff2?url";
+---
+
+<link rel="preload" href={assistantLatin} as="font" type="font/woff2" crossorigin />

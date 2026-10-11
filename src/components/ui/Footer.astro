@@ -1,0 +1,16 @@
+---
+// Wrapper for array-ui's Footer. Always passes our own values: the upstream
+// defaults are Array UI's marketing links and text (tech spec §7.1).
+import Aui from "array-ui/astro/Footer.astro";
+
+interface Props {
+  copyright: string;
+  disclaimer?: string;
+}
+
+const { copyright, disclaimer = "" } = Astro.props;
+---
+
+<Aui columns={[]} disclaimer={disclaimer} copyright={copyright}>
+  {Astro.slots.has("socials") && <slot name="socials" slot="socials" />}
+</Aui>

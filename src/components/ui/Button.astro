@@ -1,0 +1,9 @@
+---
+// Wrapper for array-ui's Button (swap point, tech spec §7.1).
+import type { ComponentProps } from "astro/types";
+import Aui from "array-ui/astro/Button.astro";
+
+type Props = ComponentProps<typeof Aui>;
+---
+
+<Aui {...Astro.props}><slot /></Aui>
