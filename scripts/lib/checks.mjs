@@ -58,7 +58,7 @@ export function pageScriptBytes(html, readLocal) {
   return total;
 }
 
-/** @param {string} html */
-export function beaconPresent(html) {
-  return html.includes("static.cloudflareinsights.com/beacon.min.js");
+/** Whether the page loads the GoatCounter analytics script (decision 0012). @param {string} html */
+export function analyticsPresent(html) {
+  return html.includes("gc.zgo.at/count.js");
 }

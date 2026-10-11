@@ -1,7 +1,7 @@
 // M5 acceptance (unit): the CI guardrails catch what they should.
 import { gzipSync } from "node:zlib";
 import { describe, expect, it } from "vitest";
-import { beaconPresent, findBrokenLinks, findEmployerMentions, pageScriptBytes } from "../../scripts/lib/checks.mjs";
+import { analyticsPresent, findBrokenLinks, findEmployerMentions, pageScriptBytes } from "../../scripts/lib/checks.mjs";
 
 describe("findEmployerMentions", () => {
   const files = [
@@ -36,9 +36,9 @@ describe("pageScriptBytes", () => {
   });
 });
 
-describe("beaconPresent", () => {
-  it("detects the Cloudflare Web Analytics beacon", () => {
-    expect(beaconPresent('<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{"token":"x"}\'></script>')).toBe(true);
-    expect(beaconPresent("<script src=/a.js></script>")).toBe(false);
+describe("analyticsPresent", () => {
+  it("detects the GoatCounter script (decision 0012)", () => {
+    expect(analyticsPresent('<script data-goatcounter="https://x.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>')).toBe(true);
+    expect(analyticsPresent("<script src=/a.js></script>")).toBe(false);
   });
 });

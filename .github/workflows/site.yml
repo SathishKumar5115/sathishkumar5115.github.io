@@ -37,9 +37,9 @@ jobs:
       - run: npm run test:e2e
       - run: npm run test:e2e:blog
       - run: npm run lighthouse
-      # The deployed build is the only one with analytics (tech spec §10).
+      # The deployed build is the only one with analytics (tech spec §10, decision 0012).
       - if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-        run: ANALYTICS=1 npm run build
+        run: ANALYTICS=1 npm run build && node scripts/check-site.mjs analytics dist present
       - if: failure()
         uses: actions/upload-artifact@v7
         with:
