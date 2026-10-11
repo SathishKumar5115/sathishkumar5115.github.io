@@ -1,0 +1,14 @@
+---
+// Wrapper for array-ui's Hero. title and subtitle are required so the
+// upstream placeholder defaults can never render (tech spec §7.1).
+import type { ComponentProps } from "astro/types";
+import Aui from "array-ui/astro/Hero.astro";
+
+type Props = ComponentProps<typeof Aui> & { title: string; subtitle: string };
+---
+
+<Aui {...Astro.props}>
+  {Astro.slots.has("actions") && <slot name="actions" slot="actions" />}
+  {Astro.slots.has("socials") && <slot name="socials" slot="socials" />}
+  <slot />
+</Aui>

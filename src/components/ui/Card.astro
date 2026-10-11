@@ -1,0 +1,14 @@
+---
+// Wrapper for array-ui's Card (swap point, tech spec §7.1).
+import type { ComponentProps } from "astro/types";
+import Aui from "array-ui/astro/Card.astro";
+
+type Props = ComponentProps<typeof Aui>;
+---
+
+<Aui {...Astro.props}>
+  {Astro.slots.has("header") && <slot name="header" slot="header" />}
+  {Astro.slots.has("content") && <slot name="content" slot="content" />}
+  {Astro.slots.has("footer") && <slot name="footer" slot="footer" />}
+  <slot />
+</Aui>

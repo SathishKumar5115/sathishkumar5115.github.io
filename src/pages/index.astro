@@ -1,20 +1,12 @@
 ---
-// M0 placeholder. Replaced by the real home page in M1/M2.
-const title = "Sathishkumar R";
+// Placeholder home page. Real content arrives in M2.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../config";
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Portfolio of Sathishkumar R. Coming soon." />
-    <title>{title}</title>
-  </head>
-  <body>
-    <main>
-      <h1>{title}</h1>
-      <p>Portfolio coming soon.</p>
-    </main>
-  </body>
-</html>
+<BaseLayout title={site.name} description={site.description}>
+  <div class="aui-container">
+    <h1>{site.name}</h1>
+    <p>Portfolio coming soon.</p>
+  </div>
+</BaseLayout>
