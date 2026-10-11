@@ -10,7 +10,8 @@ import Seo from "../components/Seo.astro";
 import Footer from "../components/ui/Footer.astro";
 import Header from "../components/ui/Header.astro";
 import ThemeScript from "../components/ui/ThemeScript.astro";
-import { site } from "../config";
+import { site, type NavLink } from "../config";
+import { getPublishedPosts } from "../lib/blog";
 
 interface Props {
   title: string;
@@ -21,6 +22,12 @@ interface Props {
 }
 
 const { title, description, type, jsonLd, footerNote } = Astro.props;
+
+// The blog appears only once a post is published (PRD R10): nav link, feed link, footer RSS.
+const hasPosts = (await getPublishedPosts()).length > 0;
+const writing: NavLink = { label: "Writing", href: "/blog/" };
+const nav: NavLink[] = site.nav.flatMap((link, i) => (hasPosts && i === 0 ? [link, writing] : [link]));
+const footerLinks = hasPosts ? [...site.social, { label: "RSS", href: "/rss.xml" }] : [...site.social];
 ---
 
 <!doctype html>
@@ -32,13 +39,14 @@ const { title, description, type, jsonLd, footerNote } = Astro.props;
     <Seo title={title} description={description} type={type} jsonLd={jsonLd} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href={fontUrl} as="font" type="font/woff2" crossorigin />
+    {hasPosts && <link rel="alternate" type="application/rss+xml" title={`${site.name} · Writing`} href="/rss.xml" />}
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <Header name={site.name} initials={site.initials} links={site.nav} currentPath={Astro.url.pathname} />
+    <Header name={site.name} initials={site.initials} links={nav} currentPath={Astro.url.pathname} />
     <main id="main" tabindex="-1">
       <slot />
     </main>
-    <Footer name={site.name} email={site.email} links={site.social} note={footerNote} />
+    <Footer name={site.name} email={site.email} links={footerLinks} note={footerNote} />
   </body>
 </html>

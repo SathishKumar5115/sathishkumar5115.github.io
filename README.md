@@ -17,6 +17,7 @@ Built spec-first: the PRD, tech spec and milestone plan live in the owner's work
 | `npm run check:no-array-ui` | Fail if Array UI is a dependency or imported anywhere (decision 0011) |
 | `npm run check:resume` | Fail if `public/resume.pdf` is missing or has leaky metadata |
 | `npm run test:unit` | Unit tests (Vitest), incl. color contrast of design tokens |
+| `npm run test:e2e:blog` | Builds a test-only site with fixture posts (`BLOG_FIXTURES=1`, into `dist-blog/`) and runs the blog tests |
 | `npm run test:e2e` | Browser tests (Playwright + axe) against the built site; run `npm run build` first |
 | `npm run build` | Build the static site into `dist/` |
 | `npm run ci` | Everything CI runs, in order |
@@ -25,6 +26,9 @@ Built spec-first: the PRD, tech spec and milestone plan live in the owner's work
 The v5 design (decision 0011): `src/design/tokens.css` holds the colour, font and radius tokens for light and dark themes, `src/design/base.css` the global styles, and `src/components/ui/` the components (each with scoped styles). Pages use those components. `tests/unit/contrast.test.ts` enforces WCAG contrast for every token pair.
 
 First-time browser setup for e2e tests: `npx playwright install chromium`.
+
+## Writing a post
+Copy `src/content/posts/_post-template.md` to `src/content/posts/<url-slug>.md` (or `.mdx`), write it, and set `draft: false`. The first published post turns on the Writing page, the nav link, the RSS feed and the Writing list on Home. Drafts never appear anywhere.
 
 ## Resume
 The public resume is built from `resume/resume.html`: edit it, then run `npm run build:resume` to regenerate `public/resume.pdf` (A4, metadata stripped to the title and the owner's name). `tests/unit/resume-source.test.ts` fails if the source contains a phone number or employer project details.

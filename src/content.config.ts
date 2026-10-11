@@ -1,8 +1,8 @@
 // Content collections (tech spec §5). Frontmatter is validated at build time.
 import { defineCollection } from "astro:content";
-import { z } from "astro/zod";
 import { glob } from "astro/loaders";
-import { projectSchema } from "./content/schemas";
+import { z } from "astro/zod";
+import { postSchema, projectSchema } from "./content/schemas";
 
 const projects = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
@@ -13,4 +13,17 @@ const projects = defineCollection({
     }),
 });
 
-export const collections = { projects };
+// Fixture posts are only included in the test build (BLOG_FIXTURES=1, see astro.config.mjs).
+const postPatterns = ["src/content/posts/**/*.{md,mdx}"];
+if (process.env["BLOG_FIXTURES"] === "1") postPatterns.push("tests/fixtures/posts/**/*.{md,mdx}");
+
+const posts = defineCollection({
+  loader: glob({
+    pattern: postPatterns,
+    base: ".",
+    generateId: ({ entry }) => entry.replace(/^.*\//, "").replace(/\.mdx?$/, ""),
+  }),
+  schema: postSchema,
+});
+
+export const collections = { projects, posts };
