@@ -15,7 +15,8 @@
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "check:aui-imports": "node scripts/check-no-direct-aui.mjs",
-    "check:resume": "node scripts/resume.mjs check"
+    "check:resume": "node scripts/resume.mjs check",
+    "build:resume": "node scripts/build-resume.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
