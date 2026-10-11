@@ -1,0 +1,65 @@
+---
+// Terminal-style summary card (v5 About): a prompt line and key/value rows.
+interface Props {
+  label: string;
+  title: string;
+  command: string;
+  rows: readonly { key: string; value: string }[];
+}
+
+const { label, title, command, rows } = Astro.props;
+---
+
+<section class="terminal" aria-label={label}>
+  <div class="titlebar">{title}</div>
+  <div class="body">
+    <p><span class="dim" aria-hidden="true">$</span> {command}</p>
+    <dl>
+      {
+        rows.map((r) => (
+          <>
+            <dt>{r.key}</dt>
+            <dd>{r.value}</dd>
+          </>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<style>
+  .terminal {
+    border-radius: var(--radius-card);
+    background: var(--code-bg);
+    color: var(--code-fg);
+    border: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+  .titlebar {
+    padding: 8px 16px;
+    border-bottom: 1px solid color-mix(in srgb, var(--code-muted) 25%, transparent);
+    font-size: 12px;
+    color: var(--code-muted);
+  }
+  .body {
+    padding: 14px 20px 18px;
+  }
+  .body p {
+    margin-bottom: 6px;
+  }
+  .dim,
+  dt {
+    color: var(--code-muted);
+  }
+  dl {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 0 14px;
+  }
+  dd {
+    margin: 0;
+  }
+</style>

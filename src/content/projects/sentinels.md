@@ -3,7 +3,8 @@ title: Sentinels
 summary: A self-hosted network intrusion detection system with a heuristic engine and a machine-learning model running side by side, plus a real-time dashboard.
 status: completed
 tags: [security, Python, Scapy, Flask, machine learning]
-order: 5
+featured: true
+order: 6
 links:
   repo: https://github.com/Gin5115/Sentinels
 started: 2025-12-01

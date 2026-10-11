@@ -3,7 +3,8 @@ title: FoodIndex
 summary: A hyper-local marketplace where restaurants sell surplus food at prices that drop automatically as pickup time approaches.
 status: completed
 tags: [MERN, MongoDB, geospatial, React]
-order: 6
+featured: true
+order: 5
 links:
   repo: https://github.com/Gin5115/FoodIndex
 started: 2026-01-01

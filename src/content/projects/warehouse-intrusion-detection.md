@@ -3,7 +3,7 @@ title: Warehouse Intrusion Detection
 summary: A low-cost IoT security system for warehouses. A motion sensor and alarm on an ESP32 send real-time alerts to a Flutter app over MQTT.
 status: completed
 tags: [IoT, ESP32, MQTT, Flutter, Firebase]
-order: 9
+order: 7
 links:
   repo: https://github.com/SathishKumar5115/Warehouse-Intrusion-Detection
 started: 2024-01-01

@@ -1,0 +1,96 @@
+---
+// Site header (v5): monogram + name, main nav, theme toggle. The nav wraps on small screens.
+import type { NavLink } from "../../config";
+import ThemeToggle from "./ThemeToggle.astro";
+
+interface Props {
+  name: string;
+  initials: string;
+  links: readonly NavLink[];
+  currentPath: string;
+}
+
+const { name, initials, links, currentPath } = Astro.props;
+const isCurrent = (href: string) => href !== "/" && href.endsWith("/") && currentPath.startsWith(href);
+---
+
+<header class="header">
+  <div class="container bar">
+    <a href="/" class="brand">
+      <span class="mark" aria-hidden="true">{initials}</span>
+      {name}
+    </a>
+    <nav aria-label="Main" class="nav">
+      {
+        links.map((link) => (
+          <a href={link.href} aria-current={isCurrent(link.href) ? "page" : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+      <ThemeToggle />
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    border-bottom: 1px solid var(--line);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+    flex-wrap: wrap;
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    min-height: 44px;
+  }
+  .brand:hover {
+    text-decoration: none;
+  }
+  .mark {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-control);
+    background: var(--text);
+    color: var(--bg);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-wrap: wrap;
+    font-size: 15px;
+    color: var(--text-muted);
+  }
+  .nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 10px;
+  }
+  .nav a:hover {
+    color: var(--text);
+  }
+  .nav a[aria-current="page"] {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .nav :global([data-theme-toggle]) {
+    margin-left: 8px;
+  }
+</style>

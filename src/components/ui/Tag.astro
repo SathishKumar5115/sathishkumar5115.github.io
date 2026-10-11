@@ -1,0 +1,32 @@
+---
+// Small label (v5): status or topic. "active" marks ongoing work.
+interface Props {
+  tone?: "neutral" | "active";
+  [key: string]: unknown;
+}
+
+const { tone = "neutral", ...rest } = Astro.props;
+---
+
+<span class:list={["tag", tone]} {...rest}><slot /></span>
+
+<style>
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: var(--radius-control);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: nowrap;
+  }
+  .neutral {
+    background: var(--tag-bg);
+    color: var(--tag-fg);
+  }
+  .active {
+    background: var(--tag-active-bg);
+    color: var(--tag-active-fg);
+  }
+</style>

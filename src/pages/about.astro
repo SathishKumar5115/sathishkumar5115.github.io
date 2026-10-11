@@ -1,82 +1,171 @@
 ---
-// About (PRD P7): bio, skills, contact links, resume. Draft text for owner approval.
+// About (v5): bio with the employer line (decision 0001), terminal summary, experience and education
+// log (jobs and degrees only), toolbox, contact, resume.
 import { statSync } from "node:fs";
-import Badge from "../components/ui/Badge.astro";
+import Button from "../components/ui/Button.astro";
+import ListRow from "../components/ui/ListRow.astro";
+import TerminalCard from "../components/ui/TerminalCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { site } from "../config";
+import { log, toolbox, whoami } from "../data/about";
 import { personJsonLd } from "../lib/person";
 
 // Fails the build if the resume is missing (PRD Q4).
 const resumeKb = Math.round(statSync(site.resume.file).size / 1024);
-
-const skills: { group: string; items: string[] }[] = [
-  { group: "Languages", items: ["Python", "JavaScript", "TypeScript", "Java", "C", "Dart", "SQL"] },
-  { group: "Frameworks", items: ["React", "Node.js", "Express", "Flask", "Flutter", "Astro"] },
-  { group: "Data & cloud", items: ["MongoDB", "MySQL", "Firebase", "AWS"] },
-  { group: "Tools", items: ["Git", "GitHub Actions", "Docker", "Playwright", "Figma"] },
-];
+const github = site.social.find((s) => s.label === "GitHub");
+const linkedin = site.social.find((s) => s.label === "LinkedIn");
 ---
 
 <BaseLayout
   title={`About · ${site.name}`}
-  description={`About ${site.name}: background, skills and how to get in touch.`}
+  description={`About ${site.name}: background, experience, toolbox and how to get in touch.`}
   type="profile"
   jsonLd={personJsonLd}
+  footerNote="Cookie-free analytics"
 >
-  <div class="aui-container" data-pagefind-body>
-    <h1>About</h1>
-    <div class="aui-prose">
-      <p>
-        I'm Sathishkumar: <strong>{site.role}</strong>, and an M.Tech student in Computer Science at
-        VIT Chennai. <em>Views on this site are my own.</em>
-      </p>
-      <p>
-        Outside work I build side projects to learn agentic engineering: agent loops, MCP, skills, hooks
-        and evals. I write down every decision and test every feature, and this site is built the same way.
-      </p>
-      <p>
-        Before that I built security tools (an LLM-powered SSH honeypot, a network intrusion detection
-        system), full-stack web apps, Flutter apps and a Discord bot used by thousands of people. I've
-        interned at TCS, AppLever Tech and ISRO's Propulsion Research Complex.
-      </p>
+  <div class="container">
+    <section class="intro">
+      <div class="bio">
+        <h1 class="page-title">About</h1>
+        <p class="lead-big">I'm an engineer who likes to understand how things work by building them.</p>
+        <p>
+          I'm doing an M.Tech in Computer Science and interning as an {site.role} at {site.employer}. Outside of
+          that I build side projects across agents, security and the web, and write about what I learn.
+        </p>
+        <p class="muted small">Views on this site are my own.</p>
+        <Button href={site.resume.href} variant="inverse">Download resume (PDF, {resumeKb} KB)</Button>
+      </div>
+      <div class="summary">
+        <TerminalCard label="Summary" title="~ zsh" command="whoami" rows={whoami} />
+      </div>
+    </section>
 
-      <h2>Skills</h2>
-    </div>
-    <dl class="aui-stack aui-stack-sm">
-      {
-        skills.map(({ group, items }) => (
-          <div>
-            <dt>
-              <strong>{group}</strong>
-            </dt>
-            <dd class="aui-row aui-row-xs aui-flex-wrap">
-              {items.map((item) => (
-                <Badge>{item}</Badge>
-              ))}
-            </dd>
-          </div>
-        ))
-      }
-    </dl>
+    <section aria-labelledby="log-heading" class="block narrow">
+      <h2 id="log-heading" class="section-title">Experience and education</h2>
+      <p class="mono muted small sub">git log --oneline</p>
+      <ol class="rows" data-career-log>
+        {
+          log.map((entry) => (
+            <ListRow meta={entry.when}>
+              {entry.what}
+              {entry.where && <span class="muted"> · {entry.where}</span>}
+            </ListRow>
+          ))
+        }
+      </ol>
+    </section>
 
-    <div class="aui-prose">
-      <h2>Contact</h2>
-      <ul>
-        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-        {site.social.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
-      </ul>
+    <section aria-labelledby="toolbox-heading" class="block">
+      <h2 id="toolbox-heading" class="section-title">Toolbox</h2>
+      <div class="toolbox">
+        {
+          toolbox.map(({ group, items }) => (
+            <div>
+              <h3 class="eyebrow">{group}</h3>
+              <ul class="skills">
+                {items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </section>
 
-      <h2>Resume</h2>
-      <p>
-        <a href={site.resume.href}>Download my resume (PDF, {resumeKb} KB)</a>
+    <section aria-labelledby="contact-heading" class="block">
+      <h2 id="contact-heading" class="section-title">Contact</h2>
+      <p class="contact">
+        Email is the fastest way to reach me: <a href={`mailto:${site.email}`} class="link-accent">{site.email}</a>.{" "}
+        {github && linkedin && (
+          <>
+            I'm also on <a href={github.href} class="link-accent">GitHub</a> and <a href={linkedin.href} class="link-accent">LinkedIn</a>.
+          </>
+        )}
       </p>
-
-      <h2>This site</h2>
-      <p>
-        Built with Astro and the Array UI design system, hosted on GitHub Pages. It uses cookie-free
-        analytics (Cloudflare Web Analytics) and stores nothing about you except your theme choice, in your
-        own browser.
-      </p>
-    </div>
+    </section>
   </div>
 </BaseLayout>
+
+<style>
+  .intro {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    align-items: flex-start;
+    padding: 64px 0;
+  }
+  .bio {
+    flex: 999 1 460px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+  .bio .page-title {
+    margin-bottom: 4px;
+  }
+  .lead-big {
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--text-soft);
+  }
+  .small {
+    font-size: 15px;
+  }
+  .summary {
+    flex: 1 1 380px;
+    min-width: 0;
+  }
+  .block {
+    padding-bottom: 64px;
+  }
+  .narrow {
+    max-width: 820px;
+  }
+  .sub {
+    margin: 4px 0 16px;
+    font-size: 13px;
+  }
+  .rows {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  .toolbox {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+  }
+  .toolbox h3 {
+    margin-bottom: 10px;
+  }
+  .skills {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .skills li {
+    font-size: 14px;
+    padding: 3px 9px;
+    border-radius: var(--radius-control);
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .contact {
+    margin-top: 8px;
+    font-size: 17px;
+    color: var(--text-soft);
+  }
+  /* Links inside running text are underlined, not told apart by colour alone (WCAG 1.4.1). */
+  .contact a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

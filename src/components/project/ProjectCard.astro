@@ -1,9 +1,9 @@
 ---
-// Project summary card for the projects index and the home page (PRD P1, P2).
+// Project card (v5): status and years, title, summary, stack line.
 import type { CollectionEntry } from "astro:content";
-import Badge from "../ui/Badge.astro";
 import Card from "../ui/Card.astro";
 import StatusBadge from "./StatusBadge.astro";
+import { projectYears } from "../../lib/projects";
 
 interface Props {
   project: CollectionEntry<"projects">;
@@ -11,18 +11,46 @@ interface Props {
 }
 
 const { project, headingLevel: Heading = "h3" } = Astro.props;
-const { title, summary, status, tags } = project.data;
+const { title, summary, status, tags, started, updated } = project.data;
 ---
 
-<Card as="article" hoverable data-project={project.id}>
-  <Fragment slot="header">
-    <Heading class="aui-card-title">
-      <a href={`/projects/${project.id}/`}>{title}</a>
-    </Heading>
-    <p class="aui-card-description">{summary}</p>
-  </Fragment>
-  <div slot="footer" class="aui-row aui-row-xs aui-flex-wrap">
+<Card href={`/projects/${project.id}/`} data-project={project.id} data-filter-value={status}>
+  <span class="top">
     <StatusBadge status={status} />
-    {tags.map((tag) => <Badge>{tag}</Badge>)}
-  </div>
+    <span class="years">{projectYears(started, updated, status)}</span>
+  </span>
+  <Heading class="card-title">{title}</Heading>
+  <p class="summary">{summary}</p>
+  {tags.length > 0 && <p class="stack">{tags.join(" · ")}</p>}
 </Card>
+
+<style>
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .years {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--text-muted);
+  }
+  .card-title {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .summary {
+    flex-grow: 1;
+    font-size: 15px;
+    color: var(--text-muted);
+  }
+  .stack {
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+</style>

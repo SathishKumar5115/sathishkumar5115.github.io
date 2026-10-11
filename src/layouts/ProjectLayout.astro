@@ -1,55 +1,222 @@
 ---
-// Project page (PRD P3): header, body (Problem, Approach, Key decisions), then Status and Links.
+// Project page (v5): header, optional screenshot, body (Problem, Approach, Key decisions) with a facts
+// sidebar, then previous/next projects.
 import type { CollectionEntry } from "astro:content";
-import Badge from "../components/ui/Badge.astro";
+import { Image } from "astro:assets";
 import StatusBadge from "../components/project/StatusBadge.astro";
+import Button from "../components/ui/Button.astro";
+import Card from "../components/ui/Card.astro";
+import Tag from "../components/ui/Tag.astro";
 import BaseLayout from "./BaseLayout.astro";
-import { statusBadge } from "../lib/projects";
+import { site } from "../config";
+import { projectYears, statusBadge } from "../lib/projects";
+
+type Project = CollectionEntry<"projects">;
 
 interface Props {
-  project: CollectionEntry<"projects">;
+  project: Project;
+  prev?: Project | undefined;
+  next?: Project | undefined;
 }
 
-const { project } = Astro.props;
-const { title, summary, status, tags, links, started, updated } = project.data;
+const { project, prev, next } = Astro.props;
+const { title, summary, status, tags, links, cover, started, updated } = project.data;
 const linkItems = [
   { label: "Source code", href: links.repo },
   { label: "Store listing", href: links.store },
   { label: "Live demo", href: links.demo },
 ].filter((l): l is { label: string; href: string } => Boolean(l.href));
 const date = (d: Date) => d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+const primary = linkItems[0];
 ---
 
-<BaseLayout title={`${title} · Projects`} description={summary}>
-  <article class="aui-container" data-pagefind-body>
-    <p><a href="/projects/">← All projects</a></p>
-    <h1>{title}</h1>
-    <p>{summary}</p>
-    <div class="aui-row aui-row-xs aui-flex-wrap">
-      <StatusBadge status={status} />
-      {tags.map((tag) => <Badge>{tag}</Badge>)}
+<BaseLayout title={`${title} · Projects · ${site.name}`} description={summary}>
+  <div class="container">
+    <section class="head">
+      <p class="back"><a href="/projects/" class="muted">← All projects</a></p>
+      <div class="tags"><StatusBadge status={status} /></div>
+      <h1 class="title">{title}</h1>
+      <p class="summary">{summary}</p>
+      {primary && <Button href={primary.href} variant="inverse">{primary.label} ↗</Button>}
+    </section>
+
+    {
+      cover && (
+        <figure class="cover">
+          <Image src={cover.src} alt={cover.alt} widths={[640, 1040]} sizes="(max-width: 1088px) 100vw, 1040px" loading="eager" />
+        </figure>
+      )
+    }
+
+    <div class="layout">
+      <aside class="facts" aria-label="Project facts">
+        <dl>
+          <div>
+            <dt class="eyebrow">Status</dt>
+            <dd>{statusBadge[status].label} · {projectYears(started, updated, status)}</dd>
+          </div>
+          <div>
+            <dt class="eyebrow">Last updated</dt>
+            <dd><time datetime={iso(updated)}>{date(updated)}</time></dd>
+          </div>
+          {
+            tags.length > 0 && (
+              <div>
+                <dt class="eyebrow">Stack and topics</dt>
+                <dd class="chips">{tags.map((t) => <Tag>{t}</Tag>)}</dd>
+              </div>
+            )
+          }
+          <div>
+            <dt class="eyebrow">Links</dt>
+            <dd>
+              {linkItems.length > 0 ? (
+                <ul class="links">
+                  {linkItems.map((l) => (
+                    <li>
+                      <a href={l.href} class="link-accent">{l.label} ↗</a>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <span class="muted">No public links yet</span>
+              )}
+            </dd>
+          </div>
+        </dl>
+      </aside>
+      <article class="prose body" data-pagefind-body>
+        <slot />
+      </article>
     </div>
-    <div class="aui-prose">
-      <slot />
-      <h2>Status</h2>
-      <p>
-        <strong>{statusBadge[status].label}.</strong> Started {date(started)}, last updated{" "}
-        <time datetime={updated.toISOString().slice(0, 10)}>{date(updated)}</time>.
-      </p>
-      <h2>Links</h2>
-      {
-        linkItems.length > 0 ? (
-          <ul>
-            {linkItems.map((l) => (
-              <li>
-                <a href={l.href}>{l.label}</a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No public links yet.</p>
-        )
-      }
-    </div>
-  </article>
+
+    {
+      (prev || next) && (
+        <nav aria-label="More projects" class="pager">
+          {prev ? (
+            <Card href={`/projects/${prev.id}/`}>
+              <span class="pager-label">← Previous</span>
+              <span class="card-title pager-title">{prev.data.title}</span>
+            </Card>
+          ) : (
+            <span />
+          )}
+          {next && (
+            <Card href={`/projects/${next.id}/`} class="pager-next">
+              <span class="pager-label">Next →</span>
+              <span class="card-title pager-title">{next.data.title}</span>
+            </Card>
+          )}
+        </nav>
+      )
+    }
+  </div>
 </BaseLayout>
+
+<style>
+  .head {
+    padding: 48px 0 36px;
+  }
+  .back {
+    margin-bottom: 24px;
+    font-size: 15px;
+  }
+  .tags {
+    margin-bottom: 14px;
+  }
+  .title {
+    font-size: clamp(34px, 5vw, 44px);
+    line-height: 1.08;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 14px;
+  }
+  .summary {
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--text-soft);
+    max-width: 720px;
+    margin-bottom: 24px;
+  }
+  .cover {
+    margin-bottom: 40px;
+  }
+  .cover :global(img) {
+    width: 100%;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--line);
+  }
+  /* Facts come first in the DOM (above the text on phones) and sit beside it on wide screens. */
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px 48px;
+    align-items: start;
+    padding: 40px 0 64px;
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 900px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr) 280px;
+    }
+    .facts {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .body {
+      grid-column: 1;
+      grid-row: 1;
+    }
+  }
+  .body {
+    min-width: 0;
+    max-width: 720px;
+  }
+  .facts {
+    min-width: 0;
+    padding: 22px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .facts dl {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .facts dt {
+    margin-bottom: 4px;
+  }
+  .facts dd {
+    margin: 0;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .links {
+    list-style: none;
+    padding: 0;
+  }
+  .pager {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: 16px;
+    padding-bottom: 72px;
+  }
+  .pager-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .pager-title {
+    font-weight: 600;
+  }
+  .pager :global(.pager-next) {
+    text-align: right;
+  }
+</style>

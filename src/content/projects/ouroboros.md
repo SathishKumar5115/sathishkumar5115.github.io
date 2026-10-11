@@ -3,9 +3,13 @@ title: Ouroboros
 summary: An SSH honeypot that uses an LLM to answer any command an attacker types, so it's much harder to fingerprint than a honeypot with canned responses.
 status: building
 tags: [security, Python, Paramiko, Gemini, React, D3.js]
-order: 4
+featured: true
+order: 1
 links:
   repo: https://github.com/Gin5115/Ouroboros
+cover:
+  src: ../../assets/projects/ouroboros-dashboard.png
+  alt: "Ouroboros dashboard showing login attempts, unique IPs, the attack kill chain, password strength, and the top usernames and passwords attackers tried."
 started: 2025-06-01
 updated: 2026-03-26
 ---

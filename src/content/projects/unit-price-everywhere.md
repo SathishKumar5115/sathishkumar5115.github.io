@@ -4,8 +4,8 @@ summary: A browser extension that shows and sorts by price per ounce, pound or c
 status: idea
 track: B
 tags: [browser extension, shopping, open source]
-featured: true
-order: 2
+featured: false
+order: 4
 started: 2026-10-11
 updated: 2026-10-11
 ---
