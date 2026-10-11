@@ -1,5 +1,14 @@
 {
   "extends": "astro/tsconfigs/strictest",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "include": [
+    ".astro/types.d.ts",
+    "**/*"
+  ],
+  "exclude": [
+    "dist",
+    "dist-blog",
+    ".lighthouseci",
+    ".lighthouseci-report",
+    ".shots"
+  ]
 }

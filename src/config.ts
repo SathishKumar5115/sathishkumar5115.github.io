@@ -32,9 +32,9 @@ export const site = {
     { label: "About", href: "/about/" },
     { label: "Resume", href: "/resume.pdf" },
   ] satisfies NavLink[],
-  // Cloudflare Web Analytics (cookie-free). The site token is public (it ends up in the HTML).
-  // The beacon is added only to the deployed build (ANALYTICS=1 in the deploy step) and only when a token is set.
-  analytics: { cloudflareToken: "" },
+  // GoatCounter analytics (cookie-free; decision 0012). Added only to the deployed build (ANALYTICS=1 in the
+  // deploy step). Dashboard: https://sathishkumar5115.goatcounter.com. Clear the code to turn analytics off.
+  analytics: { goatcounterCode: "sathishkumar5115" },
   // "Now" card on Home. Update `updated` whenever the items change.
   now: {
     updated: "2026-10-11",

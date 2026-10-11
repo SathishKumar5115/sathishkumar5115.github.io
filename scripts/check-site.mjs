@@ -5,7 +5,7 @@
 //   node scripts/check-site.mjs analytics <outDir> present|absent
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
-import { beaconPresent, findBrokenLinks, findEmployerMentions, pageScriptBytes } from "./lib/checks.mjs";
+import { analyticsPresent, findBrokenLinks, findEmployerMentions, pageScriptBytes } from "./lib/checks.mjs";
 
 const JS_BUDGET = 10 * 1024;
 const [check, outDir = "dist", expectation] = process.argv.slice(2);
@@ -55,9 +55,9 @@ if (check === "employer") {
   console.log(`Every page loads under ${JS_BUDGET / 1024} KB of gzipped JS up front.`);
 } else if (check === "analytics") {
   const pages = Object.entries(builtPages());
-  const wrong = pages.filter(([, html]) => beaconPresent(html) !== (expectation === "present")).map(([p]) => p);
-  if (wrong.length) fail(`Analytics beacon should be ${expectation} on`, wrong);
-  console.log(`Analytics beacon ${expectation} on all ${pages.length} pages.`);
+  const wrong = pages.filter(([, html]) => analyticsPresent(html) !== (expectation === "present")).map(([p]) => p);
+  if (wrong.length) fail(`Analytics script should be ${expectation} on`, wrong);
+  console.log(`Analytics script ${expectation} on all ${pages.length} pages.`);
 } else {
   console.error("Usage: node scripts/check-site.mjs employer | links <dir> | js <dir> | analytics <dir> present|absent");
   process.exit(2);
