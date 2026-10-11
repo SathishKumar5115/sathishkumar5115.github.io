@@ -4,7 +4,7 @@
  * Token values come from array-ui@0.1.7 (dist/tokens.css, MIT, (c) 2026 Arpit Bhayani)
  * with these changes:
  *   - No Google Fonts @import; fonts are self-hosted (Assistant Variable, IBM Plex Mono).
- *   - Light-mode success/warning/green/amber darkened to reach WCAG AA on paper.
+ *   - Light-mode success/warning/green/amber darkened, dark-mode violet lightened (WCAG AA).
  *   - --site-primary-as-text: crimson for text, lighter in dark mode (see rules below).
  * Contrast is enforced by tests/unit/contrast.test.ts.
  */
@@ -28,7 +28,7 @@
   --aui-c-blue: #2563eb;
   --aui-c-violet: #7c3aed;
   --aui-c-green: #047857; /* was #059669: 3.5:1 on paper */
-  --aui-c-amber: #b45309; /* was #d97706: 2.9:1 on paper */
+  --aui-c-amber: #92400e; /* was #d97706: tinted badge text 2.8:1; #b45309 still 4.4:1 */
   --aui-c-pink: #db2777;
   --aui-c-cyan: #0891b2;
 
@@ -157,7 +157,7 @@
   --aui-primary-soft: rgba(230, 0, 18, 0.12);
   --aui-c-red: #ef4444;
   --aui-c-blue: #3b82f6;
-  --aui-c-violet: #8b5cf6;
+  --aui-c-violet: #a78bfa; /* was #8b5cf6: tinted badge text 3.8:1 on dark */
   --aui-c-green: #10b981;
   --aui-c-amber: #f59e0b;
   --aui-c-pink: #ec4899;

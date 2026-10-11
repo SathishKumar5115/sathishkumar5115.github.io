@@ -1,5 +1,6 @@
 // Keyboard and small-screen behaviour (spec §11). Manual checks still happen per milestone.
 import { expect, test } from "@playwright/test";
+import { pages } from "./pages";
 
 test("skip link is the first tab stop and moves focus to main", async ({ page }) => {
   await page.goto("/");
@@ -14,13 +15,15 @@ test("skip link is the first tab stop and moves focus to main", async ({ page })
 test.describe("360px wide", () => {
   test.use({ viewport: { width: 360, height: 740 } });
 
-  test("no horizontal scrolling", async ({ page }) => {
-    await page.goto("/");
-    const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-    );
-    expect(overflow).toBeLessThanOrEqual(0);
-  });
+  for (const path of pages) {
+    test(`no horizontal scrolling on ${path}`, async ({ page }) => {
+      await page.goto(path);
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      );
+      expect(overflow).toBeLessThanOrEqual(0);
+    });
+  }
 
   test("menu button opens and closes the menu, Escape closes it", async ({ page }) => {
     await page.goto("/");

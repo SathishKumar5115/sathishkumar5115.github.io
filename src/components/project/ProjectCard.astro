@@ -1,0 +1,28 @@
+---
+// Project summary card for the projects index and the home page (PRD P1, P2).
+import type { CollectionEntry } from "astro:content";
+import Badge from "../ui/Badge.astro";
+import Card from "../ui/Card.astro";
+import StatusBadge from "./StatusBadge.astro";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+  headingLevel?: "h2" | "h3";
+}
+
+const { project, headingLevel: Heading = "h3" } = Astro.props;
+const { title, summary, status, tags } = project.data;
+---
+
+<Card as="article" hoverable data-project={project.id}>
+  <Fragment slot="header">
+    <Heading class="aui-card-title">
+      <a href={`/projects/${project.id}/`}>{title}</a>
+    </Heading>
+    <p class="aui-card-description">{summary}</p>
+  </Fragment>
+  <div slot="footer" class="aui-row aui-row-xs aui-flex-wrap">
+    <StatusBadge status={status} />
+    {tags.map((tag) => <Badge>{tag}</Badge>)}
+  </div>
+</Card>

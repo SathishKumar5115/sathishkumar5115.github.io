@@ -1,7 +1,8 @@
 // M1 acceptance: every text/background token pair ≥ 4.5:1 and UI/focus pairs ≥ 3:1, in both themes.
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { contrastRatio, parseThemes } from "../../src/lib/contrast";
+import { contrastRatio, mix, parseThemes } from "../../src/lib/contrast";
+import { statusBadge } from "../../src/lib/projects";
 
 const css = readFileSync(new URL("../../src/design/tokens.css", import.meta.url), "utf8");
 const themes = parseThemes(css);
@@ -41,6 +42,19 @@ for (const [themeName, tokens] of Object.entries(themes)) {
         expect(contrastRatio(tokens[fg]!, tokens[bg]!)).toBeGreaterThanOrEqual(4.5);
       });
     }
+    // Tinted badges: text in --aui-c-<variant>, background = 10% of that colour over the surface
+    // (array-ui: color-mix(in srgb, var(--c) 10%, transparent)).
+    const tintedVariants = [...new Set(Object.values(statusBadge).map((b) => b.variant))].filter(
+      (v) => v !== "default",
+    );
+    for (const variant of tintedVariants) {
+      for (const surface of ["--aui-bg-primary", "--aui-bg-secondary"]) {
+        it(`badge ${variant} on ${surface} ≥ 4.5:1`, () => {
+          const fg = tokens[`--aui-c-${variant}`]!;
+          expect(contrastRatio(fg, mix(fg, tokens[surface]!, 0.1))).toBeGreaterThanOrEqual(4.5);
+        });
+      }
+    }
     for (const [fg, bg] of uiPairs) {
       it(`ui ${fg} on ${bg} ≥ 3:1`, () => {
         expect(contrastRatio(tokens[fg]!, tokens[bg]!)).toBeGreaterThanOrEqual(3);
@@ -48,6 +62,13 @@ for (const [themeName, tokens] of Object.entries(themes)) {
     }
   });
 }
+
+describe("mix", () => {
+  it("mixes like color-mix in srgb", () => {
+    expect(mix("#ffffff", "#000000", 0.5)).toBe("#808080");
+    expect(mix("#ff0000", "#ffffff", 0.1)).toBe("#ffe6e6");
+  });
+});
 
 describe("contrastRatio", () => {
   it("matches known WCAG values", () => {
