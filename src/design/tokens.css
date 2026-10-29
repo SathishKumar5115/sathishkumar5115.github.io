@@ -15,7 +15,7 @@
 [data-theme="light"] {
   color-scheme: light;
   --bg: #f7f7f5;
-  --bg-grid: #e4e2dc;
+  --bg-grid: #ecebe6;
   --warm: #9f4604;
   --surface: #ffffff;
   --surface-sunken: #efefec;
@@ -38,7 +38,7 @@
 [data-theme="dark"] {
   color-scheme: dark;
   --bg: #0f0f11;
-  --bg-grid: #202025;
+  --bg-grid: #18181c;
   --warm: #f5a524;
   --surface: #17171a;
   --surface-sunken: #1c1c20;
