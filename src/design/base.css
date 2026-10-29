@@ -25,19 +25,26 @@ body {
   overflow-wrap: break-word;
 }
 
-/* Static dot grid behind the whole page; it stays put while the content scrolls over it. */
-body::before {
+/* Hairline grid behind the page content only. The header and footer sit outside <main>, so they stay plain. */
+main {
+  position: relative;
+  isolation: isolate;
+}
+
+main::before {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image: radial-gradient(circle, var(--bg-dot) 1.7px, transparent 2.2px);
-  background-size: 20px 20px;
+  background-image:
+    linear-gradient(var(--bg-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
 @media print, (forced-colors: active) {
-  body::before {
+  main::before {
     display: none;
   }
 }
@@ -116,6 +123,17 @@ img {
 .section-title {
   font-size: 24px;
   font-weight: 600;
+}
+
+/* Small amber square before each section title (decorative). */
+.section-title::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 10px;
+  vertical-align: 0.1em;
+  background: var(--warm);
 }
 
 .lead {

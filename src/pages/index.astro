@@ -129,6 +129,12 @@ const updated = new Date(site.now.updated).toLocaleDateString("en-GB", { month: 
     font-size: 13px;
     margin-bottom: 18px;
   }
+  .eyebrow-line::before {
+    content: "//";
+    content: "//" / "";
+    margin-right: 8px;
+    color: var(--warm);
+  }
   .name {
     font-size: clamp(36px, 6vw, 48px);
     line-height: 1.08;
@@ -171,6 +177,7 @@ const updated = new Date(site.now.updated).toLocaleDateString("en-GB", { month: 
     padding: 22px 24px;
     background: var(--surface);
     border: 1px solid var(--line);
+    border-left: 3px solid var(--warm);
     border-radius: var(--radius-card);
   }
   .now h2 {
