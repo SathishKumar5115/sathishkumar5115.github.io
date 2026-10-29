@@ -4,7 +4,6 @@ export const projectSlugs = [
   "ouroboros",
   "portfolio",
   "retro",
-  "unit-price-everywhere",
   "foodindex",
   "sentinels",
   "warehouse-intrusion-detection",
