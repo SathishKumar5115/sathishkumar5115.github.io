@@ -43,6 +43,32 @@ main::before {
   background-size: 32px 32px;
 }
 
+/* Text blocks sit on a solid backing with a small halo, so the grid never runs behind text. */
+main :is(
+    .intro-main,
+    .page-title,
+    .lead,
+    .lead-big,
+    .prose,
+    .rows,
+    .block-head,
+    .years,
+    .meta,
+    .facts,
+    .toc,
+    .pager,
+    .bio,
+    .toolbox,
+    .contact,
+    .skills,
+    .topics,
+    .reply,
+    .summary
+  ):not(.card *, .terminal *) {
+  background: var(--bg);
+  box-shadow: 0 0 0 12px var(--bg);
+}
+
 @media print, (forced-colors: active) {
   main::before {
     display: none;
