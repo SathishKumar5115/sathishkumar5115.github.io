@@ -6,7 +6,7 @@ import { contrastRatio, mix, parseThemes } from "../../src/lib/contrast";
 const css = readFileSync(new URL("../../src/design/tokens.css", import.meta.url), "utf8");
 const themes = parseThemes(css);
 
-const surfaces = ["--bg", "--surface", "--surface-sunken"];
+const surfaces = ["--bg", "--bg-dot", "--surface", "--surface-sunken"];
 
 // [foreground, background] pairs the site uses for text (WCAG 1.4.3: 4.5:1).
 const textPairs: [string, string][] = [
