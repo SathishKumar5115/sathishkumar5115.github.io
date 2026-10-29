@@ -37,10 +37,10 @@ export const site = {
   analytics: { goatcounterCode: "sathishkumar5115" },
   // "Now" card on Home. Update `updated` whenever the items change.
   now: {
-    updated: "2026-10-11",
+    updated: "2026-10-29",
     items: [
       { title: "Building Retro", detail: "An agent that runs my weekly review" },
-      { title: "Validating Unit Price Everywhere", detail: "A browser extension for grocery prices" },
+      { title: "Exploring what to build next", detail: "Looking for a small tool I would use every day" },
       { title: "Building this site", detail: "Portfolio and blog, made with Astro" },
     ],
   },
