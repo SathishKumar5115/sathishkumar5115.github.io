@@ -15,6 +15,7 @@
 [data-theme="light"] {
   color-scheme: light;
   --bg: #f7f7f5;
+  --bg-dot: #dcdad4;
   --surface: #ffffff;
   --surface-sunken: #efefec;
   --text: #18181b;
@@ -36,6 +37,7 @@
 [data-theme="dark"] {
   color-scheme: dark;
   --bg: #0f0f11;
+  --bg-dot: #303037;
   --surface: #17171a;
   --surface-sunken: #1c1c20;
   --text: #ededf0;
