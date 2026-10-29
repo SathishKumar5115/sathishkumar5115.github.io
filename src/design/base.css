@@ -23,21 +23,17 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-wrap: break-word;
-  position: relative;
 }
 
-/* Static dot grid behind the top of the page; fades out so reading areas stay plain. */
+/* Static dot grid behind the whole page; it stays put while the content scrolls over it. */
 body::before {
   content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 560px;
+  position: fixed;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
   background-image: radial-gradient(circle, var(--bg-dot) 1.7px, transparent 2.2px);
   background-size: 20px 20px;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
 }
 
 @media print, (forced-colors: active) {
