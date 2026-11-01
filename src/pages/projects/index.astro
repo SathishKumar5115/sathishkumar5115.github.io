@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import { allProjects } from '../../lib/projects';
+import { TAGS } from '../../content.config';
+
+const projects = await allProjects();
+const label = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+---
+<Base title="Projects" description="What I have built, why, and what I decided along the way.">
+  <div class="wrap page">
+    <h1 class="page-title">Projects</h1>
+    <p class="page-lede">What I have built, why, and what I decided along the way.</p>
+    <div class="chips" role="group" aria-label="Filter by type">
+      <button type="button" class="chip" data-filter="all" aria-pressed="true">All</button>
+      {TAGS.map((t) => <button type="button" class="chip" data-filter={t} aria-pressed="false">{label(t)}</button>)}
+    </div>
+    <div class="rows">
+      {projects.map((p) => (
+        <a class="row" href={`/projects/${p.id}/`} data-tag={p.data.tag}>
+          <span class="kicker row-tag">{p.data.tag}</span>
+          <span class="row-name">{p.data.title}</span>
+          <span class="row-line">{p.data.summary}</span>
+          <span class="row-status">{p.data.status}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('.chip');
+  const rows = document.querySelectorAll<HTMLElement>('.row');
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      const f = chip.dataset.filter;
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+      rows.forEach((r) => { r.hidden = f !== 'all' && r.dataset.tag !== f; });
+    }),
+  );
+</script>

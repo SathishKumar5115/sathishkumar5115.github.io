@@ -8,17 +8,4 @@ export const now = {
   ],
 };
 
-export const featured = [
-  { title: 'Ouroboros', tag: 'agent', year: '[year]', summary: '[One line: the problem and the approach.]', href: '/projects/' },
-  { title: 'FoodIndex', tag: 'data', year: '[year]', summary: '[One line: the problem and the approach.]', href: '/projects/' },
-  { title: 'Sentinels', tag: 'security', year: '[year]', summary: '[One line: the problem and the approach.]', href: '/projects/' },
-];
-
-export const otherProjects = [
-  { title: 'Retro', meta: 'weekly review · in progress' },
-  { title: 'Warehouse Intrusion Detection', meta: '[stack]' },
-  { title: 'Overlord', meta: 'Discord bot' },
-  { title: 'This site', meta: 'static, spec-driven' },
-];
-
 export const shelfPreview = ['[Tool name]', '[Tool name]', '[Tool name]', '[Tool name]'];
