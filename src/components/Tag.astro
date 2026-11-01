@@ -1,0 +1,5 @@
+---
+interface Props { outline?: boolean; }
+const { outline = false } = Astro.props;
+---
+{outline ? <span class="tag-outline"><slot /></span> : <span class="kicker"><slot /></span>}
