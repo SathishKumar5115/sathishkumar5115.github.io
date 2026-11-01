@@ -1,0 +1,13 @@
+---
+import { site } from '../config';
+---
+<footer class="footer">
+  <div class="wrap">
+    <span>&copy; {new Date().getFullYear()} {site.name}. Views are my own.</span>
+    <ul>
+      <li><a href={site.links.github}>GitHub</a></li>
+      <li><a href={site.links.linkedin}>LinkedIn</a></li>
+      <li><a href={site.links.email}>Email</a></li>
+    </ul>
+  </div>
+</footer>

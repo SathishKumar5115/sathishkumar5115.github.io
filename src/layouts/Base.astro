@@ -1,0 +1,49 @@
+---
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/components.css';
+import { site } from '../config';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props { title?: string; description?: string; }
+const { title, description = 'Sathishkumar R: learning to build software that works.' } = Astro.props;
+const fullTitle = title ? `${title} | ${site.name}` : site.name;
+---
+<!doctype html>
+<html lang="en" data-palette={site.defaultPalette} data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, site.url).href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <script is:inline define:vars={{ defaultPalette: site.defaultPalette }}>
+      // Runs before first paint: palette (?palette=teal|indigo|reset) and theme (stored, else system).
+      (function () {
+        var root = document.documentElement;
+        var palette = defaultPalette, mode = null;
+        try {
+          var q = new URLSearchParams(location.search).get('palette');
+          if (q === 'reset') localStorage.removeItem('sk-pal');
+          else if (q === 'teal' || q === 'indigo') localStorage.setItem('sk-pal', q);
+          var p = localStorage.getItem('sk-pal');
+          if (p === 'teal' || p === 'indigo') palette = p;
+          var m = localStorage.getItem('sk-mode');
+          if (m === 'light' || m === 'dark') mode = m;
+        } catch (e) {}
+        if (!mode) mode = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        root.dataset.palette = palette;
+        root.dataset.theme = mode;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header />
+    <main id="main"><slot /></main>
+    <Footer />
+  </body>
+</html>
