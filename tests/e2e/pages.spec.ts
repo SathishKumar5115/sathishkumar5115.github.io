@@ -16,7 +16,7 @@ test('no post, tag or rss routes exist while there are no posts', async ({ reque
 test('shelf lists tools and the later sections', async ({ page }) => {
   await page.goto('/shelf/');
   await expect(page.getByRole('heading', { level: 1, name: 'Shelf' })).toBeVisible();
-  await expect(page.locator('.tool')).toHaveCount(6);
+  await expect(page.locator('.tool')).toHaveCount(7);
   await expect(page.getByText('LINKS · LATER')).toBeVisible();
   await expect(page.getByText('MUSIC · LATER')).toBeVisible();
 });
@@ -24,7 +24,7 @@ test('shelf lists tools and the later sections', async ({ page }) => {
 test('now shows current items and earlier updates', async ({ page }) => {
   await page.goto('/now/');
   await expect(page.getByRole('heading', { level: 1, name: 'Now' })).toBeVisible();
-  await expect(page.locator('.now-list .kicker')).toHaveText(['Building', 'Designing', 'Learning', 'Reading']);
+  await expect(page.locator('.now-list .kicker')).toHaveText(['Building', 'Designing', 'Learning']);
   await expect(page.getByRole('heading', { name: 'EARLIER' })).toBeVisible();
 });
 

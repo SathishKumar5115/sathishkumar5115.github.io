@@ -8,7 +8,7 @@ import { now } from '../data/now';
       <h1 class="page-title now-title">Now</h1>
       <p class="meta now-updated">Last updated {now.updated}. A snapshot of what I am doing, not a plan.</p>
       <div class="now-list">
-        {now.items.map((i) => <div><span class="kicker">{i.kicker}</span><p class:list={[{ muted: i.muted }]}>{i.text}</p></div>)}
+        {now.items.map((i) => <div><span class="kicker">{i.kicker}</span><p>{i.text}</p></div>)}
       </div>
       <h2 class="eyebrow">EARLIER</h2>
       <ul class="earlier">
