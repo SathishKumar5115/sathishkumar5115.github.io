@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import GridPanel from '../components/GridPanel.astro';
+import { site } from '../config';
+import { bio, careerLog, toolbox, terminalCard } from '../data/about';
+---
+<Base title="About" description="Who I am, what I work on, and how to reach me.">
+  <div class="wrap page">
+    <h1 class="page-title">About</h1>
+    <div class="about">
+      <div class="about-copy">
+        <p class="bio-lead">{bio[0]}</p>
+        <p class="bio-more">{bio[1]}</p>
+        <p class="bio-more disclaimer">Views here are my own and not those of my employer.</p>
+
+        <h2>Career log</h2>
+        <ol class="log">
+          {careerLog.map((c) => (
+            <li>
+              <span><strong>{c.role}</strong><br /><span class="log-org">{c.org}</span></span>
+              <span class="meta">{c.period}</span>
+            </li>
+          ))}
+        </ol>
+
+        <h2>Toolbox</h2>
+        <ul class="toolbox">{toolbox.map((t) => <li>{t}</li>)}</ul>
+
+        <h2>Contact</h2>
+        <p class="bio-more contact">
+          Email is the best way. <a href={site.links.email}>{site.links.email.replace('mailto:', '')}</a>{' · '}<a href={site.links.github}>GitHub</a>{' · '}<a href={site.links.linkedin}>LinkedIn</a>{' · '}<a href={site.links.resume}>Resume (PDF)</a>
+        </p>
+      </div>
+
+      <aside class="about-side" aria-label="Summary">
+        <GridPanel>
+          <div class="term">
+            <div class="term-bar"><span></span><span></span><span></span><b>about.txt</b></div>
+            <dl>
+              {terminalCard.map((r) => <div><dt>{r.key}</dt><dd>{r.value}</dd></div>)}
+            </dl>
+          </div>
+        </GridPanel>
+      </aside>
+    </div>
+  </div>
+</Base>
