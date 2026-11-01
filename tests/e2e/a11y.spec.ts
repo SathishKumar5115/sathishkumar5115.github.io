@@ -4,7 +4,7 @@ import { expect, test } from '@playwright/test';
 // One page per page type (Home, Projects index, Project, About, Shelf, Now, Blog, 404).
 const pages = ['/', '/projects/', '/projects/retro/', '/about/', '/shelf/', '/now/', '/blog/', '/404.html'];
 
-for (const palette of ['teal', 'indigo']) {
+for (const palette of ['ink', 'teal', 'indigo', 'forest']) {
   for (const mode of ['light', 'dark']) {
     for (const path of pages) {
       test(`axe: ${path} (${palette}, ${mode})`, async ({ browser }) => {

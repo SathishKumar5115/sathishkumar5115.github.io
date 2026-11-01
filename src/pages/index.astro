@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Tag from '../components/Tag.astro';
-import GridPanel from '../components/GridPanel.astro';
 import NowCard from '../components/NowCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { site } from '../config';
@@ -25,7 +24,7 @@ const others = projects.filter((p) => !p.data.featured);
           <a class="btn" href={site.links.resume}>Resume (PDF)</a>
         </div>
       </div>
-      <div class="hero-side"><GridPanel><NowCard /></GridPanel></div>
+      <div class="hero-side"><NowCard /></div>
     </section>
 
     <section class="section" id="projects">

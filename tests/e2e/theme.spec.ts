@@ -46,6 +46,17 @@ test('?palette= sets, persists and resets the palette', async ({ page }) => {
   await expect(html(page)).toHaveAttribute('data-palette', 'indigo');
 });
 
+test('every palette can be previewed with ?palette=', async ({ page }) => {
+  for (const name of ['ink', 'teal', 'indigo', 'forest']) {
+    await page.goto(`/?palette=${name}`);
+    await expect(html(page)).toHaveAttribute('data-palette', name);
+  }
+  await page.goto('/?palette=nonsense');
+  await expect(html(page)).toHaveAttribute('data-palette', 'forest');
+  await page.goto('/?palette=reset');
+  await expect(html(page)).toHaveAttribute('data-palette', 'indigo');
+});
+
 test('renders with storage unavailable', async ({ browser }) => {
   const ctx = await browser.newContext();
   await ctx.addInitScript(() => {
