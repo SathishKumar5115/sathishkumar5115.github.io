@@ -1,0 +1,43 @@
+---
+import Base from './Base.astro';
+import type { Project } from '../lib/projects';
+interface Props { project: Project; prev?: Project; next?: Project; }
+const { project, prev, next } = Astro.props;
+const d = project.data;
+---
+<Base title={d.title} description={d.summary}>
+  <div class="wrap page">
+    <a class="mono back" href="/projects/">← all projects</a>
+    <span class="kicker kicker-block">{d.tag}</span>
+    <h1 class="page-title project-title">{d.title}</h1>
+    <p class="page-lede project-lede">{d.summary}</p>
+
+    <div class="project-body">
+      <article class="prose">
+        {d.cover ? <img class="cover" src={d.cover.src} alt={d.cover.alt} /> : <div class="cover placeholder">[Screenshot or diagram]</div>}
+        <slot />
+      </article>
+      <aside class="facts" aria-label="Facts">
+        <div class="facts-head">FACTS</div>
+        <dl>
+          <div><dt>STATUS</dt><dd>{d.status}</dd></div>
+          <div><dt>STARTED</dt><dd>{d.started}</dd></div>
+          <div><dt>STACK</dt><dd>{d.stack.join(', ')}</dd></div>
+          <div>
+            <dt>LINKS</dt>
+            <dd class="facts-links">
+              {d.links.repo && <a href={d.links.repo}>Repository</a>}
+              {d.links.demo && <a href={d.links.demo}>Demo</a>}
+              {!d.links.repo && !d.links.demo && <span>None yet</span>}
+            </dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+
+    <nav class="pager" aria-label="More projects">
+      {prev ? <a href={`/projects/${prev.id}/`}>← {prev.data.title}</a> : <span />}
+      {next ? <a href={`/projects/${next.id}/`}>{next.data.title} →</a> : <span />}
+    </nav>
+  </div>
+</Base>

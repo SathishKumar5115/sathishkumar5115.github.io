@@ -5,7 +5,13 @@ import GridPanel from '../components/GridPanel.astro';
 import NowCard from '../components/NowCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { site } from '../config';
-import { featured, otherProjects, shelfPreview } from '../data/home';
+import { shelfPreview } from '../data/home';
+import { allProjects } from '../lib/projects';
+import { yearOf } from '../lib/project-order';
+
+const projects = await allProjects();
+const featured = projects.filter((p) => p.data.featured);
+const others = projects.filter((p) => !p.data.featured);
 ---
 <Base>
   <div class="wrap home">
@@ -24,9 +30,9 @@ import { featured, otherProjects, shelfPreview } from '../data/home';
 
     <section class="section" id="projects">
       <div class="section-head"><h2>Featured projects</h2><a href="/projects/">All projects</a></div>
-      <div class="cards">{featured.map((p) => <ProjectCard {...p} />)}</div>
+      <div class="cards">{featured.map((p) => <ProjectCard title={p.data.title} tag={p.data.tag} year={yearOf(p.data.started)} summary={p.data.summary} href={`/projects/${p.id}/`} />)}</div>
       <div class="list">
-        {otherProjects.map((p) => <div><span>{p.title}</span><span class="meta">{p.meta}</span></div>)}
+        {others.map((p) => <div><a class="plain" href={`/projects/${p.id}/`}>{p.data.title}</a><span class="meta">{p.data.status}</span></div>)}
       </div>
     </section>
 
