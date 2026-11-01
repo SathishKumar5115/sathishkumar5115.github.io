@@ -12,6 +12,8 @@ export const site = {
     email: 'mailto:rsathishkumar1963@gmail.com',
     resume: '/resume.pdf',
   },
+  // GoatCounter (decision 0012): cookie-free, added to the deployed build only (ANALYTICS=1).
+  analytics: { goatcounterCode: 'sathishkumar5115' },
   nav: [
     { href: '/projects/', label: 'Projects' },
     { href: '/blog/', label: 'Blog' },
