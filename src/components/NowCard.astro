@@ -4,6 +4,6 @@ import { now } from '../data/now';
 <aside class="now" aria-label="Now">
   <div class="now-head"><a href="/now/">now →</a><span>updated {now.updated}</span></div>
   <ul>
-    {now.items.filter((i) => !i.muted).map((i) => <li><span class="kicker">{i.kicker}</span><br />{i.short}</li>)}
+    {now.items.map((i) => <li><span class="kicker">{i.kicker}</span><br />{i.short}</li>)}
   </ul>
 </aside>

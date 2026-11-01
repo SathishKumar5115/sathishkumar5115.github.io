@@ -14,7 +14,7 @@ const d = project.data;
 
     <div class="project-body">
       <article class="prose">
-        {d.cover ? <img class="cover" src={d.cover.src} alt={d.cover.alt} /> : <div class="cover placeholder">[Screenshot or diagram]</div>}
+        {d.cover && <img class="cover" src={d.cover.src} alt={d.cover.alt} width="1674" height="1000" />}
         <slot />
       </article>
       <aside class="facts" aria-label="Facts">

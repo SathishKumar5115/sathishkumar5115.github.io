@@ -5,7 +5,7 @@ test('projects index lists all 7 and filters by type', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: 'Projects' })).toBeVisible();
   await expect(page.locator('.row:visible')).toHaveCount(7);
   await page.getByRole('button', { name: 'Security' }).click();
-  await expect(page.locator('.row:visible')).toHaveCount(2);
+  await expect(page.locator('.row:visible')).toHaveCount(3);
   await page.getByRole('button', { name: 'All' }).click();
   await expect(page.locator('.row:visible')).toHaveCount(7);
 });

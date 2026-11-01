@@ -157,7 +157,7 @@ a.plain:hover { text-decoration: underline; }
 .now-list > div { padding: 20px 24px; border-bottom: 1px solid var(--line); }
 .now-list > div:last-child { border-bottom: 0; }
 .now-list p { margin: 4px 0 0; }
-.now-list p.muted { color: var(--muted); }
+
 .earlier { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
 .earlier li { display: flex; flex-wrap: wrap; gap: 4px 24px; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--muted); }
 .earlier .meta { flex: 0 0 110px; }
