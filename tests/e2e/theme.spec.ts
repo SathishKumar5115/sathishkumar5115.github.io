@@ -37,13 +37,13 @@ test('theme is set before first paint (no flash)', async ({ browser }) => {
 
 test('?palette= sets, persists and resets the palette', async ({ page }) => {
   await page.goto('/');
-  await expect(html(page)).toHaveAttribute('data-palette', 'teal');
-  await page.goto('/?palette=indigo');
   await expect(html(page)).toHaveAttribute('data-palette', 'indigo');
+  await page.goto('/?palette=teal');
+  await expect(html(page)).toHaveAttribute('data-palette', 'teal');
   await page.goto('/');
-  await expect(html(page)).toHaveAttribute('data-palette', 'indigo');
-  await page.goto('/?palette=reset');
   await expect(html(page)).toHaveAttribute('data-palette', 'teal');
+  await page.goto('/?palette=reset');
+  await expect(html(page)).toHaveAttribute('data-palette', 'indigo');
 });
 
 test('renders with storage unavailable', async ({ browser }) => {
@@ -53,7 +53,7 @@ test('renders with storage unavailable', async ({ browser }) => {
   });
   const page = await ctx.newPage();
   await page.goto('/');
-  await expect(html(page)).toHaveAttribute('data-palette', 'teal');
+  await expect(html(page)).toHaveAttribute('data-palette', 'indigo');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await ctx.close();
 });

@@ -3,7 +3,7 @@
     "collect": {
       "staticDistDir": "./dist",
       "url": ["/index.html", "/projects/retro/index.html", "/about/index.html"],
-      "numberOfRuns": 1,
+      "numberOfRuns": 3,
       "settings": { "chromeFlags": "--no-sandbox" }
     },
     "assert": {

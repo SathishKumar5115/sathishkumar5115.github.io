@@ -12,4 +12,4 @@ npm run test:e2e   # Playwright (builds and previews first)
 
 Deployed to GitHub Pages by GitHub Actions on every push to `main`, after all checks pass; a smoke run of the e2e suite then checks the live URL. Analytics (GoatCounter, cookie-free) is added to the deployed build only.
 
-Default palette: `defaultPalette` in `src/config.ts`. Preview the other one on your own device with `?palette=indigo`; `?palette=reset` clears it.
+Default palette: `defaultPalette` in `src/config.ts`. Preview the other one on your own device with `?palette=teal`; `?palette=reset` clears it.
