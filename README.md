@@ -10,6 +10,6 @@ npm test           # unit tests (includes colour contrast for both palettes and 
 npm run test:e2e   # Playwright (builds and previews first)
 ```
 
-The live site stays the placeholder (`index.html` at the repo root, served by the legacy Pages source) until the launch pull request switches Pages to GitHub Actions.
+Deployed to GitHub Pages by GitHub Actions on every push to `main`, after all checks pass; a smoke run of the e2e suite then checks the live URL. Analytics (GoatCounter, cookie-free) is added to the deployed build only.
 
 Default palette: `defaultPalette` in `src/config.ts`. Preview the other one on your own device with `?palette=indigo`; `?palette=reset` clears it.

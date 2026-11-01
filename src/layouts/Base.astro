@@ -8,6 +8,7 @@ import Footer from '../components/Footer.astro';
 
 interface Props { title?: string; description?: string; }
 const { title, description = 'Sathishkumar R: learning to build software that works.' } = Astro.props;
+const analytics = process.env.ANALYTICS === '1' && site.analytics.goatcounterCode;
 const fullTitle = title ? `${title} | ${site.name}` : site.name;
 ---
 <!doctype html>
@@ -39,6 +40,7 @@ const fullTitle = title ? `${title} | ${site.name}` : site.name;
         root.dataset.theme = mode;
       })();
     </script>
+    {analytics && <script is:inline async data-goatcounter={`https://${analytics}.goatcounter.com/count`} src="//gc.zgo.at/count.js"></script>}
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
