@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import { now } from '../data/now';
+---
+<Base title="Now" description="A snapshot of what I am doing, not a plan.">
+  <div class="wrap page">
+    <div class="now-page">
+      <h1 class="page-title now-title">Now</h1>
+      <p class="meta now-updated">Last updated {now.updated}. A snapshot of what I am doing, not a plan.</p>
+      <div class="now-list">
+        {now.items.map((i) => <div><span class="kicker">{i.kicker}</span><p class:list={[{ muted: i.muted }]}>{i.text}</p></div>)}
+      </div>
+      <h2 class="eyebrow">EARLIER</h2>
+      <ul class="earlier">
+        {now.earlier.map((e) => <li><span class="meta">{e.date}</span><span>{e.text}</span></li>)}
+      </ul>
+    </div>
+  </div>
+</Base>
