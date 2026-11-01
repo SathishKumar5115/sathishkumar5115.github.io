@@ -112,3 +112,28 @@ a.plain:hover { text-decoration: underline; }
 .facts dd { margin: 0; }
 .facts-links { display: grid; gap: 2px; }
 .pager { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; font-size: 15px; }
+
+/* About */
+.about { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; margin-top: 32px; }
+.about-copy { flex: 1 1 480px; min-width: 0; max-width: 640px; }
+.about-copy h2 { font-size: 24px; letter-spacing: -0.01em; margin: 0 0 12px; }
+.bio-lead { font-size: 19px; margin: 0 0 20px; }
+.bio-more { color: var(--muted); margin: 0 0 20px; }
+.disclaimer { margin-bottom: 40px; }
+.log { margin: 0 0 40px; padding: 0; list-style: none; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
+.log li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.log li:last-child { border-bottom: 0; }
+.log-org { color: var(--muted); font-size: 15px; }
+.meta { font: 400 13px/1.6 var(--font-mono); color: var(--muted); }
+.toolbox { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 40px; padding: 0; list-style: none; }
+.toolbox li { padding: 6px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); font-size: 14px; }
+.contact { margin: 0; }
+.about-side { flex: 1 1 320px; min-width: 0; max-width: 380px; }
+.about-side .grid-panel { padding: 24px; }
+.term { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden; font: 400 13px/1.6 var(--font-mono); }
+.term-bar { padding: 10px 16px; border-bottom: 1px solid var(--line); color: var(--muted); display: flex; gap: 6px; align-items: center; }
+.term-bar span { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+.term-bar b { margin-left: 8px; font-weight: 400; }
+.term dl { margin: 0; padding: 16px; display: grid; gap: 10px; }
+.term dt { color: var(--warm); }
+.term dd { margin: 0; }
