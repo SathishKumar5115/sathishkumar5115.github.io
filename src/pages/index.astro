@@ -1,9 +1,40 @@
 ---
 import Base from '../layouts/Base.astro';
+import Tag from '../components/Tag.astro';
+import GridPanel from '../components/GridPanel.astro';
+import NowCard from '../components/NowCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site } from '../config';
+import { featured, otherProjects, shelfPreview } from '../data/home';
 ---
 <Base>
-  <div class="wrap" style="padding-top: 48px;">
-    <h1>Scaffold</h1>
-    <p>Home arrives in the next pull request. This page only proves the layout, tokens and theme toggle.</p>
+  <div class="wrap home">
+    <section class="hero">
+      <div class="hero-copy">
+        <Tag outline>{site.employerLine}</Tag>
+        <h1>Learning to build software that works.</h1>
+        <p class="lede">[Two-sentence intro goes here: what I am learning, what I am building, views are my own.]</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/projects/">See projects</a>
+          <a class="btn" href={site.links.resume}>Resume (PDF)</a>
+        </div>
+      </div>
+      <div class="hero-side"><GridPanel><NowCard /></GridPanel></div>
+    </section>
+
+    <section class="section" id="projects">
+      <div class="section-head"><h2>Featured projects</h2><a href="/projects/">All projects</a></div>
+      <div class="cards">{featured.map((p) => <ProjectCard {...p} />)}</div>
+      <div class="list">
+        {otherProjects.map((p) => <div><span>{p.title}</span><span class="meta">{p.meta}</span></div>)}
+      </div>
+    </section>
+
+    <section class="section" id="shelf">
+      <div class="section-head"><h2>Shelf</h2><a href="/shelf/">Open the shelf</a></div>
+      <div class="shelf-strip">
+        {shelfPreview.map((name) => <div class="shelf-item"><span class="label">Tool</span>{name}</div>)}
+      </div>
+    </section>
   </div>
 </Base>
