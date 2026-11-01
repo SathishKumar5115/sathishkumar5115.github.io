@@ -5,7 +5,7 @@ import GridPanel from '../components/GridPanel.astro';
 import NowCard from '../components/NowCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { site } from '../config';
-import { shelfPreview } from '../data/home';
+import { shelfTools } from '../data/shelf';
 import { allProjects } from '../lib/projects';
 import { yearOf } from '../lib/project-order';
 
@@ -39,7 +39,7 @@ const others = projects.filter((p) => !p.data.featured);
     <section class="section" id="shelf">
       <div class="section-head"><h2>Shelf</h2><a href="/shelf/">Open the shelf</a></div>
       <div class="shelf-strip">
-        {shelfPreview.map((name) => <div class="shelf-item"><span class="label">Tool</span>{name}</div>)}
+        {shelfTools.slice(0, 4).map((t) => <div class="shelf-item"><span class="label">{t.kind}</span>{t.name}</div>)}
       </div>
     </section>
   </div>

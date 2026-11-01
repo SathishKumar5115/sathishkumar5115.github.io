@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import { shelfTools } from '../data/shelf';
+---
+<Base title="Shelf" description="Tools I use and would recommend, one line each.">
+  <div class="wrap page">
+    <h1 class="page-title">Shelf</h1>
+    <p class="page-lede page-lede-wide">Tools I use and would recommend, one line each.</p>
+
+    <h2 class="eyebrow">TOOLS</h2>
+    <div class="tool-grid">
+      {shelfTools.map((t) => (
+        <div class="tool">
+          <span class="kicker">{t.kind}</span>
+          <span class="tool-name">{t.name}</span>
+          <span class="tool-line">{t.line}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="later">
+      <section><h2 class="eyebrow">LINKS · LATER</h2><p>Good reads and references, added when there are enough to be worth a page.</p></section>
+      <section><h2 class="eyebrow">MUSIC · LATER</h2><p>What I listen to while building. Optional.</p></section>
+    </div>
+  </div>
+</Base>
