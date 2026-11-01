@@ -1,4 +1,4 @@
-export type Palette = 'teal' | 'indigo';
+export type Palette = 'ink' | 'teal' | 'indigo' | 'forest';
 
 export const site = {
   name: 'Sathishkumar R',

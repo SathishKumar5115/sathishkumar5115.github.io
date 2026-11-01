@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import GridPanel from '../components/GridPanel.astro';
 import { site } from '../config';
 import { bio, careerLog, toolbox, terminalCard } from '../data/about';
 ---
@@ -33,14 +32,12 @@ import { bio, careerLog, toolbox, terminalCard } from '../data/about';
       </div>
 
       <aside class="about-side" aria-label="Summary">
-        <GridPanel>
           <div class="term">
             <div class="term-bar"><span></span><span></span><span></span><b>about.txt</b></div>
             <dl>
               {terminalCard.map((r) => <div><dt>{r.key}</dt><dd>{r.value}</dd></div>)}
             </dl>
           </div>
-        </GridPanel>
       </aside>
     </div>
   </div>

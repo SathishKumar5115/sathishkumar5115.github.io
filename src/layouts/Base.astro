@@ -3,6 +3,7 @@ import '../styles/tokens.css';
 import '../styles/base.css';
 import '../styles/components.css';
 import { site } from '../config';
+import { PALETTES } from '../lib/palette';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
@@ -21,17 +22,17 @@ const fullTitle = title ? `${title} | ${site.name}` : site.name;
     <link rel="canonical" href={new URL(Astro.url.pathname, site.url).href} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="/fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <script is:inline define:vars={{ defaultPalette: site.defaultPalette }}>
-      // Runs before first paint: palette (?palette=teal|indigo|reset) and theme (stored, else system).
+    <script is:inline define:vars={{ defaultPalette: site.defaultPalette, palettes: [...PALETTES] }}>
+      // Runs before first paint: palette (?palette=<name>|reset) and theme (stored, else system).
       (function () {
         var root = document.documentElement;
         var palette = defaultPalette, mode = null;
         try {
           var q = new URLSearchParams(location.search).get('palette');
           if (q === 'reset') localStorage.removeItem('sk-pal');
-          else if (q === 'teal' || q === 'indigo') localStorage.setItem('sk-pal', q);
+          else if (palettes.indexOf(q) > -1) localStorage.setItem('sk-pal', q);
           var p = localStorage.getItem('sk-pal');
-          if (p === 'teal' || p === 'indigo') palette = p;
+          if (palettes.indexOf(p) > -1) palette = p;
           var m = localStorage.getItem('sk-mode');
           if (m === 'light' || m === 'dark') mode = m;
         } catch (e) {}

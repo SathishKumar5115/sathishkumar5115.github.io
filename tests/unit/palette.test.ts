@@ -5,6 +5,8 @@ describe('palette helpers', () => {
   it('accepts only known palettes and modes', () => {
     expect(isPalette('teal')).toBe(true);
     expect(isPalette('indigo')).toBe(true);
+    expect(isPalette('ink')).toBe(true);
+    expect(isPalette('forest')).toBe(true);
     expect(isPalette('amber')).toBe(false);
     expect(isMode('dark')).toBe(true);
     expect(isMode('auto')).toBe(false);

@@ -23,10 +23,10 @@ function ratio(a: string, b: string): number {
 
 // [foreground, background] pairs that carry text
 const pairs: [string, string][] = [
-  ['text', 'bg'], ['text', 'surface'], ['text', 'panel'],
-  ['muted', 'bg'], ['muted', 'surface'], ['muted', 'panel'],
-  ['accent', 'bg'], ['accent', 'surface'], ['accent', 'panel'],
-  ['warm', 'bg'], ['warm', 'surface'], ['warm', 'panel'],
+  ['text', 'bg'], ['text', 'surface'],
+  ['muted', 'bg'], ['muted', 'surface'],
+  ['accent', 'bg'], ['accent', 'surface'],
+  ['warm', 'bg'], ['warm', 'surface'],
   ['onAccent', 'accent'],
 ];
 
@@ -35,7 +35,7 @@ describe('colour contrast (WCAG 2.x, at least 4.5:1)', () => {
     for (const mode of MODES) {
       const t = tokens(palette, mode);
       it(`${palette} ${mode} defines every token`, () => {
-        for (const k of ['bg', 'surface', 'panel', 'grid', 'text', 'muted', 'line', 'accent', 'onAccent', 'warm']) {
+        for (const k of ['bg', 'surface', 'text', 'muted', 'line', 'accent', 'onAccent', 'warm']) {
           expect(t[k], k).toMatch(/^#[0-9a-f]{6}$/i);
         }
       });
