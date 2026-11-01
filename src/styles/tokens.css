@@ -1,0 +1,36 @@
+/* All colours live here. Palette x mode is selected by <html data-palette data-theme>. */
+:root {
+  --font-sans: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --radius: 6px;
+  --radius-sm: 4px;
+  --radius-lg: 8px;
+  --gutter: 16px;
+  --measure: 1080px;
+}
+
+:root,
+:root[data-palette='teal'][data-theme='light'] {
+  color-scheme: light;
+  --bg: #f4f7f8; --surface: #ffffff; --panel: #eaeff1; --grid: #d9e1e4;
+  --text: #14191c; --muted: #566067; --line: #d5dde0;
+  --accent: #0f6b63; --onAccent: #ffffff; --warm: #0f6b63;
+}
+:root[data-palette='teal'][data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0c1214; --surface: #131b1e; --panel: #10181a; --grid: #1c2629;
+  --text: #e6eef0; --muted: #9aa8ad; --line: #263236;
+  --accent: #5ed4c4; --onAccent: #0c1214; --warm: #5ed4c4;
+}
+:root[data-palette='indigo'][data-theme='light'] {
+  color-scheme: light;
+  --bg: #f6f6fb; --surface: #ffffff; --panel: #eeeef7; --grid: #dedeec;
+  --text: #16162a; --muted: #5a5a70; --line: #dcdce8;
+  --accent: #3b3bd6; --onAccent: #ffffff; --warm: #b4352a;
+}
+:root[data-palette='indigo'][data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0e0e16; --surface: #161622; --panel: #12121c; --grid: #1e1e2c;
+  --text: #ebebf5; --muted: #a2a2b8; --line: #2a2a3c;
+  --accent: #a5a8ff; --onAccent: #0e0e16; --warm: #ff8a78;
+}
