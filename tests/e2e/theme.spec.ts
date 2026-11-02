@@ -1,5 +1,8 @@
 import { expect, test } from '@playwright/test';
 
+const DEFAULT = process.env.DEFAULT_PALETTE || 'indigo';
+const ALL = ['ink', 'teal', 'indigo', 'forest'];
+const OTHER = DEFAULT === 'teal' ? 'ink' : 'teal';
 const html = (page: import('@playwright/test').Page) => page.locator('html');
 
 test('follows the system theme when nothing is stored', async ({ browser }) => {
@@ -37,24 +40,25 @@ test('theme is set before first paint (no flash)', async ({ browser }) => {
 
 test('?palette= sets, persists and resets the palette', async ({ page }) => {
   await page.goto('/');
-  await expect(html(page)).toHaveAttribute('data-palette', 'forest');
-  await page.goto('/?palette=teal');
-  await expect(html(page)).toHaveAttribute('data-palette', 'teal');
+  await expect(html(page)).toHaveAttribute('data-palette', DEFAULT);
+  await page.goto(`/?palette=${OTHER}`);
+  await expect(html(page)).toHaveAttribute('data-palette', OTHER);
   await page.goto('/');
-  await expect(html(page)).toHaveAttribute('data-palette', 'teal');
+  await expect(html(page)).toHaveAttribute('data-palette', OTHER);
   await page.goto('/?palette=reset');
-  await expect(html(page)).toHaveAttribute('data-palette', 'forest');
+  await expect(html(page)).toHaveAttribute('data-palette', DEFAULT);
 });
 
 test('every palette can be previewed with ?palette=', async ({ page }) => {
-  for (const name of ['forest', 'ink', 'teal', 'indigo']) {
+  const order = [DEFAULT, ...ALL.filter((n) => n !== DEFAULT)];
+  for (const name of order) {
     await page.goto(`/?palette=${name}`);
     await expect(html(page)).toHaveAttribute('data-palette', name);
   }
   await page.goto('/?palette=nonsense');
-  await expect(html(page)).toHaveAttribute('data-palette', 'indigo');
+  await expect(html(page)).toHaveAttribute('data-palette', order[order.length - 1]);
   await page.goto('/?palette=reset');
-  await expect(html(page)).toHaveAttribute('data-palette', 'forest');
+  await expect(html(page)).toHaveAttribute('data-palette', DEFAULT);
 });
 
 test('renders with storage unavailable', async ({ browser }) => {
@@ -64,7 +68,7 @@ test('renders with storage unavailable', async ({ browser }) => {
   });
   const page = await ctx.newPage();
   await page.goto('/');
-  await expect(html(page)).toHaveAttribute('data-palette', 'forest');
+  await expect(html(page)).toHaveAttribute('data-palette', DEFAULT);
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await ctx.close();
 });

@@ -16,3 +16,13 @@ export function paletteFromQuery(q: string | null): PaletteName | 'reset' | null
   if (q === 'reset') return 'reset';
   return isPalette(q) ? q : null;
 }
+
+export const FALLBACK_PALETTE: PaletteName = 'indigo';
+
+/** Reads the DEFAULT_PALETTE build setting: empty means the fallback; a wrong name fails the build instead of being ignored. */
+export function resolveDefaultPalette(value: string | undefined): PaletteName {
+  const v = (value ?? '').trim();
+  if (!v) return FALLBACK_PALETTE;
+  if (isPalette(v)) return v;
+  throw new Error(`DEFAULT_PALETTE must be one of ${PALETTES.join(', ')} (got "${v}")`);
+}

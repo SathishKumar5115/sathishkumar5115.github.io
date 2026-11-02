@@ -1,10 +1,12 @@
-export type Palette = 'ink' | 'teal' | 'indigo' | 'forest';
+import { resolveDefaultPalette, type PaletteName } from './lib/palette';
+
+export type Palette = PaletteName;
 
 export const site = {
   name: 'Sathishkumar R',
   url: 'https://sathishkumar5115.github.io',
-  // Change this one line (then merge and deploy) to change the palette for everyone.
-  defaultPalette: 'forest' as Palette,
+  // The palette for everyone. Set the repository variable DEFAULT_PALETTE (ink, teal, indigo or forest) and re-run the workflow; unset means indigo.
+  defaultPalette: resolveDefaultPalette(process.env.DEFAULT_PALETTE),
   employerLine: 'AI Software Engineer Intern @ Intel',
   links: {
     github: 'https://github.com/SathishKumar5115',
