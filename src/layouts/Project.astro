@@ -5,7 +5,7 @@ interface Props { project: Project; prev?: Project; next?: Project; }
 const { project, prev, next } = Astro.props;
 const d = project.data;
 ---
-<Base title={d.title} description={d.summary}>
+<Base title={d.title} description={d.summary} kind="Project">
   <div class="wrap page">
     <a class="mono back" href="/projects/">← all projects</a>
     <span class="kicker kicker-block">{d.tag}</span>

@@ -24,3 +24,18 @@ for (const palette of ['ink', 'teal', 'indigo', 'forest']) {
     }
   }
 }
+
+for (const mode of ['light', 'dark']) {
+  test(`axe: search dialog open (${mode})`, async ({ browser }) => {
+    const ctx = await browser.newContext();
+    await ctx.addInitScript((m) => localStorage.setItem('sk-mode', m), mode);
+    const page = await ctx.newPage();
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Search' }).click();
+    await expect(page.getByRole('dialog', { name: 'Search the site' })).toBeVisible();
+    await expect(page.getByRole('option').first()).toBeVisible();
+    const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
+    expect(results.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);
+    await ctx.close();
+  });
+}

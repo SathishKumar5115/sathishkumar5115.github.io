@@ -1,12 +1,13 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { allProjects } from '../../lib/projects';
+import { yearOf } from '../../lib/project-order';
 import { TAGS } from '../../content.config';
 
 const projects = await allProjects();
 const label = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 ---
-<Base title="Projects" description="What I have built, why, and what I decided along the way.">
+<Base title="Projects" description="What I have built, why, and what I decided along the way." searchable={false}>
   <div class="wrap page">
     <h1 class="page-title">Projects</h1>
     <p class="page-lede">What I have built, why, and what I decided along the way.</p>
@@ -14,13 +15,16 @@ const label = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
       <button type="button" class="chip" data-filter="all" aria-pressed="true">All</button>
       {TAGS.map((t) => <button type="button" class="chip" data-filter={t} aria-pressed="false">{label(t)}</button>)}
     </div>
-    <div class="rows">
+    <div class="tiles">
       {projects.map((p) => (
-        <a class="row" href={`/projects/${p.id}/`} data-tag={p.data.tag}>
-          <span class="kicker row-tag">{p.data.tag}</span>
-          <span class="row-name">{p.data.title}</span>
-          <span class="row-line">{p.data.summary}</span>
-          <span class="row-status">{p.data.status}</span>
+        <a class="tile" href={`/projects/${p.id}/`} data-tag={p.data.tag}>
+          <div class="tile-body">
+            <div class="tile-meta"><span class="kicker">{p.data.tag}</span><span class="meta">{yearOf(p.data.started)}</span></div>
+            <h2 class="tile-title">{p.data.title}</h2>
+            <p class="tile-summary">{p.data.summary}</p>
+            <ul class="stack">{p.data.stack.slice(0, 3).map((s) => <li>{s}</li>)}</ul>
+          </div>
+          <div class="tile-foot"><span>{p.data.status}</span><span class="tile-cta">Read the write-up →</span></div>
         </a>
       ))}
     </div>
@@ -29,12 +33,12 @@ const label = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
 <script>
   const chips = document.querySelectorAll<HTMLButtonElement>('.chip');
-  const rows = document.querySelectorAll<HTMLElement>('.row');
+  const tiles = document.querySelectorAll<HTMLElement>('.tile');
   chips.forEach((chip) =>
     chip.addEventListener('click', () => {
       const f = chip.dataset.filter;
       chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
-      rows.forEach((r) => { r.hidden = f !== 'all' && r.dataset.tag !== f; });
+      tiles.forEach((t) => { t.hidden = f !== 'all' && t.dataset.tag !== f; });
     }),
   );
 </script>

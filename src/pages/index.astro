@@ -12,7 +12,7 @@ const projects = await allProjects();
 const featured = projects.filter((p) => p.data.featured);
 const others = projects.filter((p) => !p.data.featured);
 ---
-<Base>
+<Base searchable={false}>
   <div class="wrap home">
     <section class="hero">
       <div class="hero-copy">

@@ -27,7 +27,8 @@ for (const f of html) {
 }
 
 // JS: external bundles plus inline scripts, gzipped, across the heaviest page.
-const jsFiles = files.filter((f) => extname(f) === '.js');
+// Search (Pagefind) loads only when the dialog opens, so it is outside the per-page budget.
+const jsFiles = files.filter((f) => extname(f) === '.js' && !f.startsWith(join(dist, 'pagefind')));
 const jsGz = jsFiles.reduce((n, f) => n + gzipSync(readFileSync(f)).length, 0);
 let maxInline = 0;
 for (const f of html) {
