@@ -4,6 +4,7 @@ on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -27,7 +28,7 @@ jobs:
       - run: npm run test:e2e
 
   deploy:
-    if: github.event_name == 'push'
+    if: github.event_name != 'pull_request'
     needs: checks
     runs-on: ubuntu-latest
     permissions:
@@ -50,6 +51,8 @@ jobs:
       - run: npm run build
         env:
           ANALYTICS: '1'
+          # Repository variable (Settings, Secrets and variables, Actions, Variables). Empty means indigo.
+          DEFAULT_PALETTE: ${{ vars.DEFAULT_PALETTE }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -70,3 +73,4 @@ jobs:
       - run: npm run test:e2e
         env:
           BASE_URL: https://sathishkumar5115.github.io
+          DEFAULT_PALETTE: ${{ vars.DEFAULT_PALETTE }}

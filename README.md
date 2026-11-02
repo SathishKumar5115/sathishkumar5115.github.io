@@ -12,4 +12,4 @@ npm run test:e2e   # Playwright (builds and previews first)
 
 Deployed to GitHub Pages by GitHub Actions on every push to `main`, after all checks pass; a smoke run of the e2e suite then checks the live URL. Analytics (GoatCounter, cookie-free) is added to the deployed build only.
 
-Default palette: `defaultPalette` in `src/config.ts`. Palettes: `ink`, `teal`, `indigo`, `forest`. Preview one on your own device with `?palette=<name>`; `?palette=reset` clears it.
+Default palette: the repository variable `DEFAULT_PALETTE` (`ink`, `teal`, `indigo` or `forest`; unset means indigo). To change it for everyone: Settings, Secrets and variables, Actions, Variables, then run the CI workflow on `main` (Actions tab, Run workflow). Locally: `DEFAULT_PALETTE=forest npm run dev`. Palettes: `ink`, `teal`, `indigo`, `forest`. Preview one on your own device with `?palette=<name>`; `?palette=reset` clears it.
