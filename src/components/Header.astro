@@ -1,6 +1,7 @@
 ---
 import { site } from '../config';
 import ThemeToggle from './ThemeToggle.astro';
+import Search from './Search.astro';
 
 const path = Astro.url.pathname;
 const current = (href: string) => path === href || path.startsWith(href);
@@ -11,6 +12,7 @@ const current = (href: string) => path === href || path.startsWith(href);
     <nav class="nav" aria-label="Main">
       {site.nav.map((l) => <a href={l.href} aria-current={current(l.href) ? 'page' : undefined}>{l.label}</a>)}
       <a href={site.links.resume}>Resume</a>
+      <Search />
       <ThemeToggle />
     </nav>
   </div>

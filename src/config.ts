@@ -4,7 +4,7 @@ export const site = {
   name: 'Sathishkumar R',
   url: 'https://sathishkumar5115.github.io',
   // Change this one line (then merge and deploy) to change the palette for everyone.
-  defaultPalette: 'indigo' as Palette,
+  defaultPalette: 'forest' as Palette,
   employerLine: 'AI Software Engineer Intern @ Intel',
   links: {
     github: 'https://github.com/SathishKumar5115',

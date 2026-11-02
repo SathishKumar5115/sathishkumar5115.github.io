@@ -7,8 +7,8 @@ import { PALETTES } from '../lib/palette';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
-interface Props { title?: string; description?: string; }
-const { title, description = 'Sathishkumar R: learning to build software that works.' } = Astro.props;
+interface Props { title?: string; description?: string; searchable?: boolean; kind?: 'Page' | 'Project' | 'Post'; }
+const { title, description = 'Sathishkumar R: learning to build software that works.', searchable = true, kind = 'Page' } = Astro.props;
 const analytics = process.env.ANALYTICS === '1' && site.analytics.goatcounterCode;
 const fullTitle = title ? `${title} | ${site.name}` : site.name;
 ---
@@ -46,7 +46,10 @@ const fullTitle = title ? `${title} | ${site.name}` : site.name;
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <Header />
-    <main id="main"><slot /></main>
+    <main id="main" data-pagefind-body={searchable ? '' : undefined} data-pagefind-meta={searchable ? `type:${kind}` : undefined}>
+      {searchable && <span hidden data-pagefind-meta={`summary:${description}`}></span>}
+      <slot />
+    </main>
     <Footer />
   </body>
 </html>
